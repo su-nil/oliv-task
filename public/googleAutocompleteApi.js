@@ -2,7 +2,7 @@ const axios = require('axios');
 const MAPS_API_KEY = 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw';
 
 module.exports = function(app, db) {
-	app.get('/search/:query', (req, res) => {
+	app.get('/autocomplete/:query', (req, res) => {
 		axios
 			.get(
 				`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${req.params
@@ -10,7 +10,8 @@ module.exports = function(app, db) {
 			)
 			.then(function(response) {
 				if (response.data.status == 'OK') {
-					res.send(response.data.result);
+					console.dir(response.data.predictions);
+					res.json(response.data.predictions);
 				} else {
 					res.status(400).send('Error');
 				}

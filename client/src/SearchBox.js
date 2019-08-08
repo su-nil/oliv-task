@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './SearchBox.css';
 import autocomplete from './autocompleteHelper';
+import placeSearch from './placeSearchHelper';
 // import axios from 'axios';
 
 // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap
@@ -26,6 +27,7 @@ export class SearchBox extends Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		console.log('Hello');
+		placeSearch(this.state.query);
 		this.setState({ query: '' });
 	}
 
