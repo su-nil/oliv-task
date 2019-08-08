@@ -18,5 +18,9 @@ app.use(function(req, res, next) {
 require('./public')(app, {});
 
 app.listen(port, () => {
-	console.log('We are live on ' + port);
+	console.log(`Listening on port ${port}`);
+});
+
+app.get('/express_backend', (req, res) => {
+	res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
