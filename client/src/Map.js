@@ -1,32 +1,43 @@
+// TODO Fetch API key from backend
+// TODO Marker Design
+// TODO Decide zoom automatically based on area size
+
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-import './Map.css';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const Marker = ({ text }) => <h4>{text}</h4>;
 
-class SimpleMap extends Component {
+class Map extends Component {
 	static defaultProps = {
 		center: {
 			lat: 59.95,
 			lng: 30.33
 		},
-		zoom: 11
+		zoom: 13
 	};
 
 	render() {
+		const markers = this.props.results.map((result) => {
+			const { name, coordinates, url } = result;
+			const { latitude, longitude } = coordinates;
+			return <Marker lat={latitude} lng={longitude} text={name} key={name} />;
+		});
 		return (
 			// Important! Always set the container height explicitly
-			<div className="Map">
+
+			<div style={{ height: '100vh', width: '100%' }}>
 				<GoogleMapReact
 					bootstrapURLKeys={{ key: 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw' }}
-					defaultCenter={this.props.center}
-					defaultZoom={this.props.zoom}
+					// defaultCenter={this.props.center}
+					// defaultZoom={this.props.zoom}
+					center={this.props.center}
+					zoom={this.props.zoom}
 				>
-					<AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
+					{markers}
 				</GoogleMapReact>
 			</div>
 		);
 	}
 }
 
-export default SimpleMap;
+export default Map;

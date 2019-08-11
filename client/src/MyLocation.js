@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
 
 export class CurrentLocation extends Component {
 	render() {
 		return (
 			<div className="CurrentLocation">
-				<h1>Use current Location</h1>
+				<Button>Use My Location</Button>
 			</div>
 		);
 	}
