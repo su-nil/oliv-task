@@ -2,6 +2,7 @@
 // TODO Routing with location
 // TODO Pagination
 // TODO More, back and forward
+// TODO Pagination
 
 import React, { Component } from 'react';
 import SearchResult from './SearchResult';

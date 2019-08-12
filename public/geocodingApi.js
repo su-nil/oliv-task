@@ -2,16 +2,14 @@ const axios = require('axios');
 const config = require('./config');
 
 module.exports = function(app, db) {
-	app.get('/search/:query', (req, res) => {
+	app.get('/geocode/:query', (req, res) => {
 		axios
 			.get(
-				`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.params
-					.query}&key=${config.mapsApiKey}`
+				`https://maps.googleapis.com/maps/api/geocode/json?address=${req.params.query}&key=${config.mapsApiKey}`
 			)
 			.then(function(response) {
 				if (response.data.status == 'OK') {
-					console.dir(response.data.results);
-					res.json(response.data.results);
+					res.json(response.data.predictions);
 				} else {
 					res.status(400).send('Error');
 				}
