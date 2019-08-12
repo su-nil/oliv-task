@@ -21,6 +21,10 @@ module.exports = function(app, db) {
 			                    latitude
 			                    longitude
 							}
+							location {
+								formatted_address
+							}
+							phone
 							rating
 							price
 							photos

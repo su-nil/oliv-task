@@ -1,33 +1,36 @@
 import React from 'react';
+import uuid from 'uuid';
+
 import autocomplete from './autocompleteHelper';
 import placeSearch from './placeSearchHelper';
+import MyLocation from './MyLocation';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
-import MyLocation from './MyLocation';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import { TextField, Grid, MenuItem, Button, InputAdornment, Paper, Hidden } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/styles';
 
-import uuid from 'uuid';
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
-		// flexBasis: 'auto',
 		flexDirection: 'row',
-		width: '100%',
-		flexWrap: 'wrap',
+		flexWrap: 'nowrap',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		margin: '20px 15px'
+		margin: 'auto',
+		flexGrow: 1,
+		minWidth: '500px'
+
+		// '@media (max-width: 960px)': {
+		// 	display: 'flex',
+		// 	flexDirection: 'column',
+		// 	width: '100%',
+		// 	justifyContent: 'center',
+		// 	alignItems: 'center'
+		// }
 	},
 	container: {
 		position: 'relative'
@@ -47,17 +50,27 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		listStyleType: 'none'
 	},
-	buttons: {
-		display: 'flex',
-		justifyContent: 'flex-start'
-		// alignItems: 'stretch'
-	},
-	button: {
+	// buttons: {
+	// 	display: 'flex',
+	// 	justifyContent: 'flex-start'
+
+	// 	// alignItems: 'stretch'
+	// },
+	searchButton: {
 		margin: '0px 10px',
-		padding: '15px'
+		height: '56px',
+		flexGrow: 0
+		// padding: '15px'
 	},
 	inputContainer: {
-		margin: '0px 7px'
+		margin: '0px 7px',
+		// flex: '1 1 300px'
+		flexGrow: 1
+		// flexShrink: 0
+		// minWidth: '100wh'
+		// '@media (max-width: 960px)': {
+		// 	width: '100%'
+		// }
 	}
 }));
 
@@ -124,8 +137,7 @@ export default function SearchBox(props) {
 	const [ stateSuggestions, setSuggestions ] = React.useState([]);
 
 	const handleSubmit = async (e) => {
-		// e.preventDefault();
-		// console.log('Hi');
+		e.preventDefault();
 		setValue('');
 		const place = await placeSearch(value);
 		await props.fetchResults(place[0]);
@@ -150,42 +162,55 @@ export default function SearchBox(props) {
 		onSuggestionsFetchRequested: handleSuggestionsFetchRequested,
 		onSuggestionsClearRequested: handleSuggestionsClearRequested,
 		getSuggestionValue,
-		renderSuggestion
+		renderSuggestion,
+		highlightFirstSuggestion: true
 	};
 
 	// console.log(props);
 
 	return (
 		<div className={classes.root}>
-			<Grid xs={7} className={classes.inputContainer} item>
-				<Autosuggest
-					{...autosuggestProps}
-					inputProps={{
-						classes,
-						id: 'autosuggest',
-						placeholder: 'Search Restaurants...',
-						value,
-						onChange
-					}}
-					theme={{
-						container: classes.container,
-						suggestionsContainerOpen: classes.suggestionsContainerOpen,
-						suggestionsList: classes.suggestionsList,
-						suggestion: classes.suggestion
-					}}
-					renderSuggestionsContainer={(options) => (
-						<Paper {...options.containerProps} square>
-							{options.children}
-						</Paper>
-					)}
-				/>
+			<Grid className={classes.inputContainer} item>
+				<form onSubmit={handleSubmit} id="search-form">
+					<Autosuggest
+						{...autosuggestProps}
+						inputProps={{
+							classes,
+							id: 'autosuggest',
+							placeholder: 'Search restaurants near...',
+							value,
+							onChange
+						}}
+						theme={{
+							container: classes.container,
+							suggestionsContainerOpen: classes.suggestionsContainerOpen,
+							suggestionsList: classes.suggestionsList,
+							suggestion: classes.suggestion
+						}}
+						renderSuggestionsContainer={(options) => (
+							<Paper {...options.containerProps} square>
+								{options.children}
+							</Paper>
+						)}
+					/>
+				</form>
 			</Grid>
-			<Grid xs={4} className={classes.buttons} item>
-				<Button onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
-					Search
-				</Button>
-				<MyLocation submitMyLocation={props.submitMyLocation} />
-			</Grid>
+
+			<Button
+				onClick={handleSubmit}
+				form="search-form"
+				variant="contained"
+				color="primary"
+				className={classes.searchButton}
+			>
+				<Hidden mdDown>
+					<span>Search</span>
+				</Hidden>
+				<Hidden lgUp>
+					<SearchIcon />
+				</Hidden>
+			</Button>
+			{/* <MyLocation submitMyLocation={props.submitMyLocation} /> */}
 		</div>
 	);
 }

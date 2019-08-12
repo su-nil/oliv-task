@@ -18,20 +18,29 @@ const styles = {
 
 const Marker = ({ text }) => {
 	return (
-		<div style={{ textAlign: 'center', margin: 'auto' }}>
+		<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 			<Typography
 				variant="subtitle1"
 				style={{
 					whiteSpace: 'nowrap',
-					wordBreak: 'break-word',
+					textAlign: 'center',
+					// wordBreak: 'break-word',
 					fontSize: 12,
-					textShadow: '0px 0px 9px #FFFFFF'
+					padding: '1px 4px',
+					border: '1px solid grey',
+					borderRadius: '5px',
+
+					backgroundColor: 'white'
 				}}
 			>
 				{text}
 			</Typography>
 
-			<MarkerIcon />
+			<MarkerIcon
+				style={{
+					color: '#cc3333'
+				}}
+			/>
 		</div>
 	);
 };
@@ -64,8 +73,8 @@ class Map extends Component {
 					zoom={zoom}
 					yesIWantToUseGoogleMapApiInternals
 				>
-					{/* {markers} */}
-					<Marker lat={36.778261} lng={-119.4179324} text={'assda asdasd asdas'} className={classes.marker} />
+					{markers}
+					{/* <Marker lat={36.778261} lng={-119.4179324} text={'assda asdasd asdas'} className={classes.marker} /> */}
 				</GoogleMapReact>
 			</div>
 		);

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import SearchBox from './SearchBox';
 import SearchResults from './SearchResults';
+import MyLocation from './MyLocation';
 import Map from './Map';
 import yelpResults from './yelpHelper';
 import geoLocate from './geolocationHelpher';
-import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Grid, Switch, CircularProgress, Hidden } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import getApiKey from './getApiKey';
 
@@ -13,6 +13,8 @@ import getApiKey from './getApiKey';
 // TODO Refactor to Hooks
 // TODO Throw error if restaurants is not resolved in usemylocation
 // TODO Figure out proper way to fetch apikey from backend server
+// TODO Use LocalStorage
+// TODO Employ react router with place as req parameter
 
 // Using Apikey on client side since fetching Api Key from backend darkens map
 const MAPS_API_KEY = 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw';
@@ -24,7 +26,10 @@ const styles = {
 		flexDirection: 'row',
 		width: '100%',
 		justifyContent: 'space-around',
-		flexGrow: 1
+		flexGrow: 1,
+		'@media (max-width: 960px)': {
+			flexDirection: 'column'
+		}
 	},
 	searchMapContainer: {
 		display: 'flex',
@@ -35,8 +40,12 @@ const styles = {
 		flexDirection: 'column',
 		width: '30%',
 		height: '100vh',
-		borderRight: '1px solid lightgrey',
-		overflow: 'scroll'
+		borderTop: '1px solid lightgrey',
+		borderLeft: '1px solid lightgrey',
+		overflow: 'scroll',
+		'@media (max-width: 960px)': {
+			width: '100%'
+		}
 	},
 	map: {
 		width: '100%',
@@ -44,7 +53,17 @@ const styles = {
 		borderTop: '1px solid lightgrey',
 		position: 'relative'
 	},
-	search: {}
+	header: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+		flexWrap: 'wrap',
+		padding: '1%',
+		'@media (max-width: 960px)': {
+			paddingBottom: '0'
+		}
+	}
 };
 
 class App extends Component {
@@ -84,28 +103,39 @@ class App extends Component {
 
 	render() {
 		const { classes } = this.props;
+		const { restaurants, coordinates, isLoading } = this.state;
 		return (
 			<Grid className={classes.root} container>
-				<Grid xs={4} className={classes.results} item>
-					{this.state.isLoading ? (
+				<Grid xs={12} md={8} className={classes.searchMapContainer} item>
+					<Grid className={classes.header} item>
+						<SearchBox fetchResults={this.fetchResults} />
+						<MyLocation submitMyLocation={this.submitMyLocation} />
+
+						<Hidden mdUp>
+							<span>
+								Show Map<Switch />
+							</span>
+						</Hidden>
+					</Grid>
+
+					<Hidden smDown>
+						<div className={classes.map}>
+							<Map
+								results={restaurants}
+								center={coordinates}
+								zoom={13}
+								apiKey={MAPS_API_KEY}
+								// apiKey={this.state.mapsApiKey}
+							/>
+						</div>
+					</Hidden>
+				</Grid>
+				<Grid xs={12} md={4} className={classes.results} item>
+					{isLoading ? (
 						<CircularProgress size={80} thickness={5} style={{ alignSelf: 'center', margin: 'auto' }} />
 					) : (
-						<SearchResults results={this.state.restaurants} />
+						<SearchResults results={restaurants} />
 					)}
-				</Grid>
-				<Grid xs={8} className={classes.searchMapContainer} item>
-					<div className={classes.search}>
-						<SearchBox fetchResults={this.fetchResults} submitMyLocation={this.submitMyLocation} />
-					</div>
-					<div className={classes.map}>
-						<Map
-							results={this.state.restaurants}
-							center={this.state.coordinates}
-							zoom={13}
-							apiKey={MAPS_API_KEY}
-							// apiKey={this.state.mapsApiKey}
-						/>
-					</div>
 				</Grid>
 			</Grid>
 		);

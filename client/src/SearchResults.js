@@ -14,8 +14,30 @@ export class SearchResults extends Component {
 	}
 
 	render() {
-		const results = this.props.results.map((result) => <SearchResult result={result} key={uuid()} />);
-		return <div className="SearchResults">{results}</div>;
+		const { results } = this.props;
+		const restaurants = results.map((result) => <SearchResult result={result} key={uuid()} />);
+		console.log(restaurants);
+		return (
+			<div className="SearchResults">
+				{restaurants.length === 0 ? (
+					<div>
+						<h4
+							style={{
+								textAlign: 'center',
+								color: 'grey',
+								fontWeight: 300,
+								fontSize: '1.3rem',
+								margin: '50px 20px'
+							}}
+						>
+							Your search results will appear here...
+						</h4>
+					</div>
+				) : (
+					restaurants
+				)}
+			</div>
+		);
 	}
 }
 

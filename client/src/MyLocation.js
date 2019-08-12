@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/styles';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
+import { Hidden, Button } from '@material-ui/core';
 
 const styles = {
 	button: {
-		margin: '0px 10px',
-		padding: '15px'
+		margin: '10px',
+		padding: '15px',
+		height: '56px'
 	}
 };
 export class MyLocation extends Component {
@@ -15,8 +16,10 @@ export class MyLocation extends Component {
 		return (
 			<div className="CurrentLocation">
 				<Button onClick={submitMyLocation} className={classes.button} variant="contained" color="primary">
-					<MyLocationIcon style={{ marginRight: '7px' }} />
-					Use My Location
+					<MyLocationIcon />
+					<Hidden only={[ 'sm', 'md' ]}>
+						<span style={{ marginLeft: '3%', whiteSpace: 'nowrap' }}>Use My Location</span>
+					</Hidden>
 				</Button>
 			</div>
 		);
