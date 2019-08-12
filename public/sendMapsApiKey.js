@@ -1,3 +1,5 @@
+// TODO Try catch
+
 const config = require('./config');
 
 module.exports = function(app, db) {

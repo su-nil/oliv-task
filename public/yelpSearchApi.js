@@ -1,3 +1,4 @@
+// TODO Error reporting, try catch
 const axios = require('axios');
 const config = require('./config');
 const limit = 20;

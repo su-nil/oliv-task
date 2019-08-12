@@ -1,9 +1,13 @@
+// TODO Refactor styles, move to new file
+// TODO Separate styling between App and this component
+// TODO try catch for all async/await/promises
+// TODO Refactor Autosuggest component
+
 import React from 'react';
 import uuid from 'uuid';
 
 import autocomplete from './autocompleteHelper';
 import placeSearch from './placeSearchHelper';
-import MyLocation from './MyLocation';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
@@ -11,7 +15,6 @@ import parse from 'autosuggest-highlight/parse';
 import { TextField, Grid, MenuItem, Button, InputAdornment, Paper, Hidden } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
-import { withStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,14 +26,6 @@ const useStyles = makeStyles((theme) => ({
 		margin: 'auto',
 		flexGrow: 1,
 		minWidth: '500px'
-
-		// '@media (max-width: 960px)': {
-		// 	display: 'flex',
-		// 	flexDirection: 'column',
-		// 	width: '100%',
-		// 	justifyContent: 'center',
-		// 	alignItems: 'center'
-		// }
 	},
 	container: {
 		position: 'relative'
@@ -50,27 +45,14 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		listStyleType: 'none'
 	},
-	// buttons: {
-	// 	display: 'flex',
-	// 	justifyContent: 'flex-start'
-
-	// 	// alignItems: 'stretch'
-	// },
 	searchButton: {
 		margin: '0px 10px',
 		height: '56px',
 		flexGrow: 0
-		// padding: '15px'
 	},
 	inputContainer: {
 		margin: '0px 7px',
-		// flex: '1 1 300px'
 		flexGrow: 1
-		// flexShrink: 0
-		// minWidth: '100wh'
-		// '@media (max-width: 960px)': {
-		// 	width: '100%'
-		// }
 	}
 }));
 
@@ -166,8 +148,6 @@ export default function SearchBox(props) {
 		highlightFirstSuggestion: true
 	};
 
-	// console.log(props);
-
 	return (
 		<div className={classes.root}>
 			<Grid className={classes.inputContainer} item>
@@ -210,7 +190,6 @@ export default function SearchBox(props) {
 					<SearchIcon />
 				</Hidden>
 			</Button>
-			{/* <MyLocation submitMyLocation={props.submitMyLocation} /> */}
 		</div>
 	);
 }

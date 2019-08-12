@@ -1,3 +1,6 @@
+// TODO Refactor to Hooks
+// TODO Move inline styles to style object
+
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import MyLocationIcon from '@material-ui/icons/MyLocation';

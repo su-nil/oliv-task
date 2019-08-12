@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import Rating from '@material-ui/lab/Rating';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import CardMedia from '@material-ui/core/CardMedia';
-import { withStyles } from '@material-ui/styles';
-import { Grid } from '@material-ui/core';
+// TODO Move inline styles to style object
+// TODO Add Opening hours, phone number to search result
+// TODO Add photo slider if there are more than one photo
 
-// TODO Design Search Result
+import React, { Component } from 'react';
+import Rating from '@material-ui/lab/Rating';
+import { Grid, Typography, CardContent, Card, CardMedia } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+
 const styles = {
 	root: {
 		display: 'flex',
@@ -17,10 +16,7 @@ const styles = {
 		justifyContent: 'flex-start',
 		alignItems: 'center'
 	},
-	details: {
-		// display: 'flex',
-		// flexDirection: 'column'
-	},
+	details: {},
 	image: {
 		margin: '2% 20px 2% auto',
 		height: '100px',
@@ -30,8 +26,7 @@ const styles = {
 export class SearchResult extends Component {
 	render() {
 		const { classes } = this.props;
-		const { name, rating, url, photos, location: { formatted_address }, price } = this.props.result;
-		console.log(this.props.result);
+		const { name, rating, photos, location: { formatted_address }, price } = this.props.result;
 		return (
 			<Card className={classes.root} raised>
 				<CardContent className={classes.details}>

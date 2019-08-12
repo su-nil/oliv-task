@@ -1,22 +1,29 @@
+// TODO try catch for all async/await and promises, display MateriaalUI dialog when there is an error
+// TODO Refactor styles, possibly move it to a separate file
+// TODO Move inline styles to styles object
+// TODO Figure out proper way to fetch API key from backend server
+// TODO Use LocalStorage to display restaurants
+// TODO Employ react router with LatLng/place as req parameter
+// TODO Refactor to Hooks
+
 import React, { Component } from 'react';
 import SearchBox from './SearchBox';
 import SearchResults from './SearchResults';
-import MyLocation from './MyLocation';
 import Map from './Map';
+
 import yelpResults from './yelpHelper';
+import MyLocation from './MyLocation';
 import geoLocate from './geolocationHelpher';
-import { Grid, Switch, CircularProgress, Hidden } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
 import getApiKey from './getApiKey';
 
-// Responsive
-// TODO Refactor to Hooks
-// TODO Throw error if restaurants is not resolved in usemylocation
-// TODO Figure out proper way to fetch apikey from backend server
-// TODO Use LocalStorage
-// TODO Employ react router with place as req parameter
+import { Grid, Switch, CircularProgress, Hidden, FormControlLabel } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 
-// Using Apikey on client side since fetching Api Key from backend darkens map
+/*
+Note: Temporarily using API key on client side since fetching Api Key from backend darkens map 
+and prompts that the maps is not rendered properly 
+*/
+
 const MAPS_API_KEY = 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw';
 
 const styles = {
@@ -73,7 +80,8 @@ class App extends Component {
 			mapsApiKey: '',
 			restaurants: [],
 			coordinates: { lat: 36.778261, lng: -119.4179324 },
-			isLoading: false
+			isLoading: false,
+			showMap: true
 		};
 		this.fetchResults = this.fetchResults.bind(this);
 		this.submitMyLocation = this.submitMyLocation.bind(this);
@@ -84,7 +92,6 @@ class App extends Component {
 		const { geometry: { location: coordinates } } = place;
 		const restaurants = await yelpResults(coordinates);
 		console.log(coordinates);
-
 		this.setState({ restaurants, coordinates, isLoading: false });
 	}
 
@@ -92,7 +99,6 @@ class App extends Component {
 		const { latitude: lat, longitude: lng } = await geoLocate();
 		const coordinates = { lat, lng };
 		const restaurants = await yelpResults(coordinates);
-		// TODO throw error if restaurants is not resolved
 		this.setState({ restaurants, coordinates });
 	}
 
@@ -103,21 +109,21 @@ class App extends Component {
 
 	render() {
 		const { classes } = this.props;
-		const { restaurants, coordinates, isLoading } = this.state;
+		const { restaurants, coordinates, isLoading, showMap } = this.state;
+
 		return (
 			<Grid className={classes.root} container>
 				<Grid xs={12} md={8} className={classes.searchMapContainer} item>
 					<Grid className={classes.header} item>
 						<SearchBox fetchResults={this.fetchResults} />
 						<MyLocation submitMyLocation={this.submitMyLocation} />
-
-						<Hidden mdUp>
-							<span>
-								Show Map<Switch />
-							</span>
-						</Hidden>
+						<div>
+							<Hidden mdUp>
+								<Switch color="primary" value="showMap" />
+								<span>Show Map</span>
+							</Hidden>
+						</div>
 					</Grid>
-
 					<Hidden smDown>
 						<div className={classes.map}>
 							<Map
@@ -143,4 +149,3 @@ class App extends Component {
 }
 
 export default withStyles(styles)(App);
-// export default App;

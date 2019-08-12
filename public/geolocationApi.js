@@ -1,3 +1,5 @@
+// Not required
+
 const axios = require('axios');
 const config = require('./config');
 
@@ -10,7 +12,6 @@ module.exports = function(app, db) {
 				console.log(response.status);
 
 				if (response.status == 200) {
-					// console.dir(response.data.predictions);
 					res.json(response.data);
 				} else {
 					res.status(400).send('Error');

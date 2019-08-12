@@ -1,4 +1,4 @@
-// TODO Marker Design offset icon and text
+// TODO Marker location offset
 // TODO Cluster Markers
 // TODO use fitBounds() for deciding zoom automatically
 // TODO Refactor to hooks
@@ -7,14 +7,9 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MarkerIcon from '@material-ui/icons/LocationOn';
 import Typography from '@material-ui/core/Typography';
-import { withStyles, mergeClasses } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 
-const styles = {
-	'&marker > Typography': {
-		// whiteSpace: 'nowrap',
-		// wordBreak: 'break-word'
-	}
-};
+const styles = {};
 
 const Marker = ({ text }) => {
 	return (
@@ -24,12 +19,10 @@ const Marker = ({ text }) => {
 				style={{
 					whiteSpace: 'nowrap',
 					textAlign: 'center',
-					// wordBreak: 'break-word',
 					fontSize: 12,
 					padding: '1px 4px',
 					border: '1px solid grey',
 					borderRadius: '5px',
-
 					backgroundColor: 'white'
 				}}
 			>
@@ -57,9 +50,8 @@ class Map extends Component {
 		const { center, zoom, classes, results, apiKey } = this.props;
 
 		const markers = results.map((result) => {
-			const { name, coordinates, url } = result;
+			const { name, coordinates } = result;
 			const { latitude, longitude } = coordinates;
-
 			return <Marker lat={latitude} lng={longitude} text={name} key={name} className={classes.marker} />;
 		});
 
@@ -74,7 +66,6 @@ class Map extends Component {
 					yesIWantToUseGoogleMapApiInternals
 				>
 					{markers}
-					{/* <Marker lat={36.778261} lng={-119.4179324} text={'assda asdasd asdas'} className={classes.marker} /> */}
 				</GoogleMapReact>
 			</div>
 		);

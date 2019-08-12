@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('./config');
+// Not required
 
 module.exports = function(app, db) {
 	app.get('/geocode/:query', (req, res) => {

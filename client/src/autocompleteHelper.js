@@ -1,3 +1,5 @@
+// TODO try catch
+
 import axios from 'axios';
 
 export default async function placeSearch(query) {

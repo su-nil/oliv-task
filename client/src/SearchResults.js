@@ -1,8 +1,7 @@
-// TODO Loading Icon
-// TODO Routing with location
-// TODO Pagination
-// TODO More, back and forward
-// TODO Pagination
+// TODO Move inline styles to style object
+// TODO Routing with location?
+// TODO Pagination, More, nextPage and prevPage?
+// TODO Refactor to Hooks
 
 import React, { Component } from 'react';
 import SearchResult from './SearchResult';
@@ -16,7 +15,6 @@ export class SearchResults extends Component {
 	render() {
 		const { results } = this.props;
 		const restaurants = results.map((result) => <SearchResult result={result} key={uuid()} />);
-		console.log(restaurants);
 		return (
 			<div className="SearchResults">
 				{restaurants.length === 0 ? (
