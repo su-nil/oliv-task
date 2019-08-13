@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/styles';
 const styles = {
 	root: {
 		width: '100%',
+		// margin: '2%',
 		display: 'grid',
 		gridTemplateColumns: '80% 20%',
 		gridTemplateRows: '100%',

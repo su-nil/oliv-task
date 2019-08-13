@@ -16,8 +16,9 @@ import geoLocate from './geolocationHelpher';
 import getApiKey from './getApiKey';
 
 import styled from 'styled-components';
-import { Switch, Hidden, FormControlLabel } from '@material-ui/core';
+import { Switch, Hidden, AppBar } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
+import { relative } from 'path';
 
 /*
 Note: Temporarily using API key on client side since fetching Api Key from backend darkens map 
@@ -29,18 +30,33 @@ const MAPS_API_KEY = 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw';
 const styles = {
 	root: {
 		display: 'grid',
-		gridTemplateRows: '15vh 85vh',
+		height: '100vh',
+		gridTemplateRows: 'minmax(min-content, max-content) 1fr',
 		gridTemplateColumns: '30vw 70vw',
 		'@media (max-width: 960px)': {
 			display: 'grid',
-			gridTemplateRows: '10vh 5vh 85vh',
+			gridTemplateRows: 'minmax(min-content, max-content) minmax(min-content, max-content) 1fr',
 			gridTemplateColumns: '100vw'
 		}
 	},
+	// headerHolder: {
+	// 	// gridRow: '1 / 2',
+	// 	// gridColumn: '2 / 3',
+	// 	// margin: '2% 3%',
+	// 	// position: 'relative',
+	// 	// backgroundColor: 'white',
+	// 	// width: 'auto',
+	// 	// boxShadow: 'none',
+	// 	// '@media (max-width: 960px)': {
+	// 	// 	position: 'fixed'
+	// 	// 	// gridRow: '1 / 2',
+	// 	// 	// gridColumn: '1 / 2'
+	// 	// }
+	// },
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
-		margin: 'auto 2%',
+		margin: '2% 3%',
 		'@media (max-width: 960px)': {
 			gridRow: '1 / 2',
 			gridColumn: '1 / 2'
@@ -121,6 +137,7 @@ class App extends Component {
 
 		return (
 			<div className={classes.root}>
+				{/* <AppBar className={classes.headerHolder}> */}
 				<div className={classes.header}>
 					<Header
 						fetchResults={this.fetchResults}
@@ -132,6 +149,7 @@ class App extends Component {
 					<span>Show Map</span>
 					<Switch color="primary" value={showMap} onChange={this.handleShowMap} checked={showMap} />
 				</div>
+				{/* </AppBar> */}
 
 				<DisplayMap className={classes.map} displayMap={displayMap}>
 					<Map results={restaurants} center={coordinates} zoom={13} apiKey={MAPS_API_KEY} />

@@ -28,6 +28,10 @@ const styles = (theme) => ({
 			gridTemplateRows: '100%'
 		}
 	},
+	input: {
+		maxHeight: '56px',
+		height: '1vh'
+	},
 	container: {
 		position: 'relative'
 	},
