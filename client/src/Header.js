@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SearchBox from './SearchBox';
 import MyLocation from './MyLocation';
 
+import { Switch } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const styles = {
@@ -13,23 +14,55 @@ const styles = {
 		'@media (max-width: 960px)': {
 			width: '100%',
 			display: 'grid',
-			gridTemplateColumns: '85% 15%',
-			gridTemplateRows: '100%'
+			gridTemplateColumns: 'repeat(10, 10%)',
+			gridTemplateRows: '55% 45%',
+			rowGap: '7px'
 		}
 	},
 	searchBox: {
 		gridRow: '1 / 2',
-		gridColumn: '1 / 2'
+		gridColumn: '1 / 2',
+		'@media (max-width: 960px)': {
+			gridRow: '1 / 2',
+			gridColumn: '1 / -1'
+		}
 	},
 	myLocationButton: {
 		gridRow: '1 / 2',
-		gridColumn: '2 / 3'
+		gridColumn: '2 / 3',
+		'@media (max-width: 960px)': {
+			gridRow: '2 / 3',
+			gridColumn: '1 / span 5',
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center'
+		}
+	},
+	showMapButton: {
+		display: 'none',
+		'@media (max-width: 960px)': {
+			display: 'block',
+			gridRow: '2 / 3',
+			gridColumn: 'span 5 / -1',
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center',
+			fontSize: '0.7rem',
+			fontWeight: 500,
+			textTransform: 'uppercase',
+			padding: '0 10px',
+			border: '1px solid lightgrey',
+			borderRadius: '4px',
+			marginLeft: '5px'
+		}
 	}
 };
 
 class Header extends Component {
 	render() {
-		const { classes, fetchResults, submitMyLocation } = this.props;
+		const { classes, fetchResults, submitMyLocation, handleShowMap, showMap } = this.props;
 		return (
 			<div className={classes.root}>
 				<div className={classes.searchBox}>
@@ -37,6 +70,10 @@ class Header extends Component {
 				</div>
 				<div className={classes.myLocationButton}>
 					<MyLocation submitMyLocation={submitMyLocation} />
+				</div>
+				<div className={classes.showMapButton}>
+					<span>Show Map</span>
+					<Switch color="primary" value={showMap} onChange={handleShowMap} checked={showMap} />
 				</div>
 			</div>
 		);

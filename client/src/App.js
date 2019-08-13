@@ -16,9 +16,7 @@ import geoLocate from './geolocationHelpher';
 import getApiKey from './getApiKey';
 
 import styled from 'styled-components';
-import { Switch, Hidden, AppBar } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { relative } from 'path';
 
 /*
 Note: Temporarily using API key on client side since fetching Api Key from backend darkens map 
@@ -31,11 +29,11 @@ const styles = {
 	root: {
 		display: 'grid',
 		height: '100vh',
-		gridTemplateRows: 'max-content 1fr',
+		gridTemplateRows: '90px 1fr',
 		gridTemplateColumns: '30vw 70vw',
 		'@media (max-width: 960px)': {
 			display: 'grid',
-			gridTemplateRows: 'max-content max-content 1fr',
+			gridTemplateRows: '130px 1fr',
 			gridTemplateColumns: '100vw'
 		}
 	},
@@ -43,22 +41,11 @@ const styles = {
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
-		margin: '2% 3%',
+		margin: 'auto 20px',
 		'@media (max-width: 960px)': {
 			gridRow: '1 / 2',
-			gridColumn: '1 / 2'
-		}
-	},
-	showMapButton: {
-		display: 'none',
-		'@media (max-width: 960px)': {
-			display: 'block',
-			gridRow: '2 / 3',
 			gridColumn: '1 / 2',
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent: 'center',
-			alignItems: 'center'
+			margin: 'auto 10px'
 		}
 	},
 	results: {
@@ -129,12 +116,13 @@ class App extends Component {
 						fetchResults={this.fetchResults}
 						submitMyLocation={this.submitMyLocation}
 						handleShowMap={this.handleShowMap}
+						showMap={showMap}
 					/>
 				</div>
-				<div className={classes.showMapButton}>
+				{/* <div className={classes.showMapButton}>
 					<span>Show Map</span>
 					<Switch color="primary" value={showMap} onChange={this.handleShowMap} checked={showMap} />
-				</div>
+				</div> */}
 
 				<DisplayMap className={classes.map} displayMap={displayMap}>
 					<Map results={restaurants} center={coordinates} zoom={13} apiKey={MAPS_API_KEY} />

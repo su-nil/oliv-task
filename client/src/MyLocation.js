@@ -10,19 +10,24 @@ const styles = {
 	root: {
 		width: '100%',
 		height: '100%',
+		padding: '0',
 		'@media (max-width: 960px)': {
-			padding: '0 5%'
+			marginRight: '5px'
 		}
 	},
 	myLocationButton: {
 		width: '100%',
-		height: '100%'
+		height: '100%',
+		'@media (max-width: 960px)': {
+			marginRight: '5px'
+		}
 	},
 	myLocationButtonText: {
 		marginLeft: '5%',
 		whiteSpace: 'nowrap',
 		'@media (max-width: 960px)': {
-			display: 'none'
+			// display: 'none'
+			fontSize: '0.7rem'
 		}
 	}
 };

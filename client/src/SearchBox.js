@@ -53,13 +53,18 @@ const styles = (theme) => ({
 	searchButton: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
-		padding: '0 7%',
+		padding: '0 10px',
 		'& button': {
 			width: '100%',
 			height: '100%'
 		},
 		'@media (max-width: 960px)': {
-			padding: '0 5%'
+			padding: '0 0 0 5px',
+			'& button': {
+				minWidth: 'auto',
+				height: '100%',
+				marginLeft: 'auto'
+			}
 		}
 	},
 	searchText: {
@@ -88,12 +93,7 @@ function renderInputComponent(inputProps) {
 				},
 				classes: {
 					input: classes.input
-				},
-				startAdornment: (
-					<InputAdornment position="start">
-						<SearchIcon style={{ margin: '10px' }} />
-					</InputAdornment>
-				)
+				}
 			}}
 			{...other}
 		/>
@@ -190,7 +190,7 @@ class SearchBox extends Component {
 							inputProps={{
 								classes,
 								id: 'autosuggest',
-								placeholder: 'Search restaurants near...',
+								placeholder: 'Search restaurants',
 								value,
 								onChange: this.onChange
 							}}
