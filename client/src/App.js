@@ -31,28 +31,15 @@ const styles = {
 	root: {
 		display: 'grid',
 		height: '100vh',
-		gridTemplateRows: 'minmax(min-content, max-content) 1fr',
+		gridTemplateRows: 'max-content 1fr',
 		gridTemplateColumns: '30vw 70vw',
 		'@media (max-width: 960px)': {
 			display: 'grid',
-			gridTemplateRows: 'minmax(min-content, max-content) minmax(min-content, max-content) 1fr',
+			gridTemplateRows: 'max-content max-content 1fr',
 			gridTemplateColumns: '100vw'
 		}
 	},
-	// headerHolder: {
-	// 	// gridRow: '1 / 2',
-	// 	// gridColumn: '2 / 3',
-	// 	// margin: '2% 3%',
-	// 	// position: 'relative',
-	// 	// backgroundColor: 'white',
-	// 	// width: 'auto',
-	// 	// boxShadow: 'none',
-	// 	// '@media (max-width: 960px)': {
-	// 	// 	position: 'fixed'
-	// 	// 	// gridRow: '1 / 2',
-	// 	// 	// gridColumn: '1 / 2'
-	// 	// }
-	// },
+
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
@@ -137,7 +124,6 @@ class App extends Component {
 
 		return (
 			<div className={classes.root}>
-				{/* <AppBar className={classes.headerHolder}> */}
 				<div className={classes.header}>
 					<Header
 						fetchResults={this.fetchResults}
@@ -149,7 +135,6 @@ class App extends Component {
 					<span>Show Map</span>
 					<Switch color="primary" value={showMap} onChange={this.handleShowMap} checked={showMap} />
 				</div>
-				{/* </AppBar> */}
 
 				<DisplayMap className={classes.map} displayMap={displayMap}>
 					<Map results={restaurants} center={coordinates} zoom={13} apiKey={MAPS_API_KEY} />
