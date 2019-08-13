@@ -3,7 +3,7 @@
 // TODO try catch for all async/await/promises
 // TODO Refactor Autosuggest component
 
-import React from 'react';
+import React, { Component } from 'react';
 import uuid from 'uuid';
 
 import autocomplete from './autocompleteHelper';
@@ -14,9 +14,9 @@ import parse from 'autosuggest-highlight/parse';
 
 import { TextField, Grid, MenuItem, Button, InputAdornment, Paper, Hidden } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
 	root: {
 		display: 'flex',
 		flexDirection: 'row',
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: '0px 7px',
 		flexGrow: 1
 	}
-}));
+});
 
 function renderInputComponent(inputProps) {
 	const { classes, inputRef = () => {}, ref, ...other } = inputProps;
@@ -112,84 +112,102 @@ function getSuggestionValue(suggestion) {
 	return suggestion;
 }
 
-export default function SearchBox(props) {
-	const classes = useStyles();
-	const [ value, setValue ] = React.useState('');
+class SearchBox extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: '',
+			suggestions: []
+		};
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
 
-	const [ stateSuggestions, setSuggestions ] = React.useState([]);
-
-	const handleSubmit = async (e) => {
+	async handleSubmit(e) {
 		e.preventDefault();
-		setValue('');
-		const place = await placeSearch(value);
-		await props.fetchResults(place[0]);
-	};
+		this.setState({ value: '' });
+		const place = await placeSearch(this.state.value);
+		await this.props.fetchResults(place[0]);
+	}
 
-	const handleSuggestionsFetchRequested = async ({ value }) => {
+	onSuggestionsFetchRequested = async ({ value }) => {
 		const suggestions = await getSuggestions(value);
-		setSuggestions(suggestions);
+		await this.setState((state) => ({
+			...state,
+			suggestions: suggestions
+		}));
 	};
 
-	const handleSuggestionsClearRequested = () => {
-		setSuggestions([]);
+	onSuggestionsClearRequested = () => {
+		this.setState((state) => ({
+			...state,
+			suggestions: []
+		}));
 	};
 
-	const onChange = (event, { newValue }) => {
-		setValue(newValue);
+	onChange = (event, { newValue }) => {
+		this.setState((state) => ({
+			...state,
+			value: newValue
+		}));
 	};
 
-	const autosuggestProps = {
-		renderInputComponent,
-		suggestions: stateSuggestions,
-		onSuggestionsFetchRequested: handleSuggestionsFetchRequested,
-		onSuggestionsClearRequested: handleSuggestionsClearRequested,
-		getSuggestionValue,
-		renderSuggestion,
-		highlightFirstSuggestion: true
-	};
+	render() {
+		const { classes } = this.props;
+		const { suggestions, value } = this.state;
+		const autosuggestProps = {
+			renderInputComponent,
+			suggestions,
+			onSuggestionsFetchRequested: this.onSuggestionsFetchRequested,
+			onSuggestionsClearRequested: this.onSuggestionsClearRequested,
+			getSuggestionValue,
+			renderSuggestion,
+			highlightFirstSuggestion: true
+		};
+		return (
+			<div className={classes.root}>
+				<Grid className={classes.inputContainer} item>
+					<form onSubmit={this.handleSubmit} id="search-form">
+						<Autosuggest
+							{...autosuggestProps}
+							inputProps={{
+								classes,
+								id: 'autosuggest',
+								placeholder: 'Search restaurants near...',
+								value,
+								onChange: this.onChange
+							}}
+							theme={{
+								container: classes.container,
+								suggestionsContainerOpen: classes.suggestionsContainerOpen,
+								suggestionsList: classes.suggestionsList,
+								suggestion: classes.suggestion
+							}}
+							renderSuggestionsContainer={(options) => (
+								<Paper {...options.containerProps} square>
+									{options.children}
+								</Paper>
+							)}
+						/>
+					</form>
+				</Grid>
 
-	return (
-		<div className={classes.root}>
-			<Grid className={classes.inputContainer} item>
-				<form onSubmit={handleSubmit} id="search-form">
-					<Autosuggest
-						{...autosuggestProps}
-						inputProps={{
-							classes,
-							id: 'autosuggest',
-							placeholder: 'Search restaurants near...',
-							value,
-							onChange
-						}}
-						theme={{
-							container: classes.container,
-							suggestionsContainerOpen: classes.suggestionsContainerOpen,
-							suggestionsList: classes.suggestionsList,
-							suggestion: classes.suggestion
-						}}
-						renderSuggestionsContainer={(options) => (
-							<Paper {...options.containerProps} square>
-								{options.children}
-							</Paper>
-						)}
-					/>
-				</form>
-			</Grid>
-
-			<Button
-				onClick={handleSubmit}
-				form="search-form"
-				variant="contained"
-				color="primary"
-				className={classes.searchButton}
-			>
-				<Hidden mdDown>
-					<span>Search</span>
-				</Hidden>
-				<Hidden lgUp>
-					<SearchIcon />
-				</Hidden>
-			</Button>
-		</div>
-	);
+				<Button
+					onClick={this.handleSubmit}
+					form="search-form"
+					variant="contained"
+					color="primary"
+					className={classes.searchButton}
+				>
+					<Hidden mdDown>
+						<span>Search</span>
+					</Hidden>
+					<Hidden lgUp>
+						<SearchIcon />
+					</Hidden>
+				</Button>
+			</div>
+		);
+	}
 }
+
+export default withStyles(styles)(SearchBox);

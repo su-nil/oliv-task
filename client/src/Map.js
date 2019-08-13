@@ -9,7 +9,14 @@ import MarkerIcon from '@material-ui/icons/LocationOn';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 
-const styles = {};
+const styles = {
+	root: {
+		width: '100%',
+		height: '100%',
+		border: '1px solid lightgrey',
+		position: 'relative'
+	}
+};
 
 const Marker = ({ text }) => {
 	return (
@@ -17,13 +24,14 @@ const Marker = ({ text }) => {
 			<Typography
 				variant="subtitle1"
 				style={{
-					whiteSpace: 'nowrap',
 					textAlign: 'center',
 					fontSize: 12,
 					padding: '1px 4px',
 					border: '1px solid grey',
 					borderRadius: '5px',
-					backgroundColor: 'white'
+					backgroundColor: 'white',
+					maxWidth: '8rem',
+					overflowWrap: 'normal'
 				}}
 			>
 				{text}
@@ -58,7 +66,7 @@ class Map extends Component {
 		return (
 			// Important! Always set the container height explicitly
 
-			<div style={{ height: '100%', width: '100%' }}>
+			<div style={{ height: '100%', width: '100%' }} className={classes.root}>
 				<GoogleMapReact
 					bootstrapURLKeys={{ key: apiKey }}
 					center={center}
