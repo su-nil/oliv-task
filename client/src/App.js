@@ -32,29 +32,49 @@ const styles = {
 		gridTemplateRows: '90px 1fr',
 		gridTemplateColumns: '30vw 70vw',
 		'@media (max-width: 960px)': {
-			width: '100vw'
+			width: '100vw',
+			display: 'grid',
+			gridTemplateRows: '100vh',
+			gridTemplateColumns: '100vw'
 		}
 	},
 
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
-		margin: 'auto 20px'
+		margin: 'auto 20px',
+		zIndex: 100
 	},
 	results: {
 		gridRow: '1 / 3',
 		gridColumn: '1 / 2',
+		zIndex: -100,
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
-			width: '100vw'
+			grid: '1 / 2 / 1 / 2'
 		}
 	},
 	map: {
 		gridRow: '2 / 3',
 		gridColumn: '2 / 3',
+		zIndex: -100,
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
-			width: '100vw'
+			gridArea: '1 / 1 / 2 / 2'
+		}
+	},
+	fixedDiv: {
+		display: 'none',
+		zIndex: -1,
+		'@media (max-width: 960px)': {
+			display: 'block',
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			height: '120px',
+			width: '100vw',
+			backgroundColor: 'white',
+			boxShadow: '0px 1px 3px 1px rgba(0,0,0,0.15)'
 		}
 	}
 };
@@ -112,11 +132,7 @@ class App extends Component {
 						showMap={showMap}
 					/>
 				</div>
-				{/* <div className={classes.showMapButton}>
-					<span>Show Map</span>
-					<Switch color="primary" value={showMap} onChange={this.handleShowMap} checked={showMap} />
-				</div> */}
-
+				<div className={classes.fixedDiv} />
 				<DisplayMap className={classes.map} displayMap={displayMap}>
 					<Map results={restaurants} center={coordinates} zoom={13} apiKey={MAPS_API_KEY} />
 				</DisplayMap>

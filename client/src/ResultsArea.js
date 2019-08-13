@@ -15,11 +15,7 @@ const styles = {
 		height: '100%',
 		width: '100%',
 		display: 'flex',
-		flexDirection: 'column',
-		border: '1px solid lightgrey',
-		'@media (max-width: 960px)': {
-			// width: '100%'
-		}
+		flexDirection: 'column'
 	},
 	startSearch: {
 		'& h4': {
@@ -27,7 +23,7 @@ const styles = {
 			color: 'grey',
 			fontWeight: 300,
 			fontSize: '20px',
-			margin: '20% 10%'
+			margin: '50% 10%'
 		}
 	},
 	loader: {

@@ -11,6 +11,8 @@ const styles = {
 		display: 'grid',
 		gridTemplateColumns: '80% 20%',
 		gridTemplateRows: '100%',
+		backgroundColor: 'white',
+		boxSizing: 'border-box',
 		'@media (max-width: 960px)': {
 			width: '95vw',
 			display: 'grid',
