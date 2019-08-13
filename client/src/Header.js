@@ -2,24 +2,29 @@ import React, { Component } from 'react';
 import SearchBox from './SearchBox';
 import MyLocation from './MyLocation';
 
-import { Switch, Hidden, FormControlLabel } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const styles = {
 	root: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-evenly',
-		flexWrap: 'wrap',
-		padding: '1%',
+		width: '100%',
+		display: 'grid',
+		gridTemplateColumns: '80% 20%',
+		gridTemplateRows: '100%',
 		'@media (max-width: 960px)': {
-			paddingBottom: '0'
+			width: '100%',
+			display: 'grid',
+			gridTemplateColumns: '85% 15%',
+			gridTemplateRows: '100%'
 		}
 	},
-	searchBox: {},
-	myLocationButton: {},
-	showMapButton: {}
+	searchBox: {
+		gridRow: '1 / 2',
+		gridColumn: '1 / 2'
+	},
+	myLocationButton: {
+		gridRow: '1 / 2',
+		gridColumn: '2 / 3'
+	}
 };
 
 class Header extends Component {
@@ -33,12 +38,6 @@ class Header extends Component {
 				<div className={classes.myLocationButton}>
 					<MyLocation submitMyLocation={submitMyLocation} />
 				</div>
-				<Hidden mdUp>
-					<div className={classes.showMapButton}>
-						<Switch color="primary" value="showMap" />
-						<span>Show Map</span>
-					</div>
-				</Hidden>
 			</div>
 		);
 	}

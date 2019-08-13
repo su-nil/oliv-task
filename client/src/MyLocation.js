@@ -7,22 +7,38 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 import { Hidden, Button } from '@material-ui/core';
 
 const styles = {
-	button: {
-		margin: '10px',
-		padding: '15px',
-		height: '56px'
+	root: {
+		width: '100%',
+		height: '100%',
+		'@media (max-width: 960px)': {
+			padding: '0 5%'
+		}
+	},
+	myLocationButton: {
+		width: '100%',
+		height: '100%'
+	},
+	myLocationButtonText: {
+		marginLeft: '5%',
+		whiteSpace: 'nowrap',
+		'@media (max-width: 960px)': {
+			display: 'none'
+		}
 	}
 };
 export class MyLocation extends Component {
 	render() {
 		const { classes, submitMyLocation } = this.props;
 		return (
-			<div className="CurrentLocation">
-				<Button onClick={submitMyLocation} className={classes.button} variant="contained" color="primary">
+			<div className={classes.root}>
+				<Button
+					onClick={submitMyLocation}
+					className={classes.myLocationButton}
+					variant="contained"
+					color="primary"
+				>
 					<MyLocationIcon />
-					<Hidden only={[ 'sm', 'md' ]}>
-						<span style={{ marginLeft: '3%', whiteSpace: 'nowrap' }}>Use My Location</span>
-					</Hidden>
+					<span className={classes.myLocationButtonText}>My Location</span>
 				</Button>
 			</div>
 		);

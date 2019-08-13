@@ -5,27 +5,28 @@
 
 import React, { Component } from 'react';
 import uuid from 'uuid';
-
 import autocomplete from './autocompleteHelper';
 import placeSearch from './placeSearchHelper';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 
-import { TextField, Grid, MenuItem, Button, InputAdornment, Paper, Hidden } from '@material-ui/core';
+import { TextField, MenuItem, Button, InputAdornment, Paper, Hidden } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
 	root: {
-		display: 'flex',
-		flexDirection: 'row',
-		flexWrap: 'nowrap',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		margin: 'auto',
-		flexGrow: 1,
-		minWidth: '500px'
+		display: 'grid',
+		width: '100%',
+		gridTemplateColumns: '75% 25%',
+		gridTemplateRows: '100%',
+		'@media (max-width: 960px)': {
+			width: '100%',
+			display: 'grid',
+			gridTemplateColumns: '80.5% 19.5%',
+			gridTemplateRows: '100%'
+		}
 	},
 	container: {
 		position: 'relative'
@@ -46,13 +47,27 @@ const styles = (theme) => ({
 		listStyleType: 'none'
 	},
 	searchButton: {
-		margin: '0px 10px',
-		height: '56px',
-		flexGrow: 0
+		gridRow: '1 / 2',
+		gridColumn: '2 / 3',
+		padding: '0 7%',
+		'& button': {
+			width: '100%',
+			height: '100%'
+		},
+		'@media (max-width: 960px)': {
+			padding: '0 5%'
+		}
+	},
+	searchText: {
+		marginLeft: '5%',
+		'@media (max-width: 960px)': {
+			display: 'none'
+		}
 	},
 	inputContainer: {
-		margin: '0px 7px',
-		flexGrow: 1
+		width: '100%',
+		gridRow: '1 / 2',
+		gridColumn: '1 / 2'
 	}
 });
 
@@ -84,7 +99,6 @@ function renderInputComponent(inputProps) {
 function renderSuggestion(suggestion, { query, isHighlighted }) {
 	const matches = match(suggestion, query);
 	const parts = parse(suggestion, matches);
-
 	return (
 		<MenuItem selected={isHighlighted} component="div">
 			<div>
@@ -133,7 +147,7 @@ class SearchBox extends Component {
 		const suggestions = await getSuggestions(value);
 		await this.setState((state) => ({
 			...state,
-			suggestions: suggestions
+			suggestions
 		}));
 	};
 
@@ -165,7 +179,7 @@ class SearchBox extends Component {
 		};
 		return (
 			<div className={classes.root}>
-				<Grid className={classes.inputContainer} item>
+				<div className={classes.inputContainer}>
 					<form onSubmit={this.handleSubmit} id="search-form">
 						<Autosuggest
 							{...autosuggestProps}
@@ -189,25 +203,25 @@ class SearchBox extends Component {
 							)}
 						/>
 					</form>
-				</Grid>
-
-				<Button
-					onClick={this.handleSubmit}
-					form="search-form"
-					variant="contained"
-					color="primary"
-					className={classes.searchButton}
-				>
-					<Hidden mdDown>
-						<span>Search</span>
-					</Hidden>
-					<Hidden lgUp>
+				</div>
+				<div className={classes.searchButton}>
+					<Button onClick={this.handleSubmit} form="search-form" variant="contained" color="primary">
 						<SearchIcon />
-					</Hidden>
-				</Button>
+						<span className={classes.searchText}>Search</span>
+					</Button>
+				</div>
 			</div>
 		);
 	}
 }
 
 export default withStyles(styles)(SearchBox);
+
+// display: 'flex',
+// 		flexDirection: 'row',
+// 		flexWrap: 'nowrap',
+// 		justifyContent: 'flex-start',
+// 		alignItems: 'center',
+// 		margin: 'auto',
+// 		flexGrow: 1,
+// 		minWidth: '500px'

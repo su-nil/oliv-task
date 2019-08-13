@@ -12,9 +12,10 @@ import { withStyles } from '@material-ui/styles';
 
 const styles = {
 	root: {
+		height: '100%',
+		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
-		height: '100vh',
 		border: '1px solid lightgrey',
 		'@media (max-width: 960px)': {
 			// width: '100%'

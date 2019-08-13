@@ -15,6 +15,8 @@ import yelpResults from './yelpHelper';
 import geoLocate from './geolocationHelpher';
 import getApiKey from './getApiKey';
 
+import styled from 'styled-components';
+import { Switch, Hidden, FormControlLabel } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 /*
@@ -27,25 +29,56 @@ const MAPS_API_KEY = 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw';
 const styles = {
 	root: {
 		display: 'grid',
-		gridTemplateRows: '15% 85%',
-		gridTemplateColumns: '30% 70%'
+		gridTemplateRows: '15vh 85vh',
+		gridTemplateColumns: '30vw 70vw',
+		'@media (max-width: 960px)': {
+			display: 'grid',
+			gridTemplateRows: '10vh 5vh 85vh',
+			gridTemplateColumns: '100vw'
+		}
 	},
 	header: {
 		gridRow: '1 / 2',
-		gridColumn: '2 / 3'
-		// gridArea: 'header',
+		gridColumn: '2 / 3',
+		margin: 'auto 2%',
+		'@media (max-width: 960px)': {
+			gridRow: '1 / 2',
+			gridColumn: '1 / 2'
+		}
+	},
+	showMapButton: {
+		display: 'none',
+		'@media (max-width: 960px)': {
+			display: 'block',
+			gridRow: '2 / 3',
+			gridColumn: '1 / 2',
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center'
+		}
 	},
 	results: {
 		gridRow: '1 / 3',
-		gridColumn: '1 / 2'
-		// gridArea: 'results',
+		gridColumn: '1 / 2',
+		'@media (max-width: 960px)': {
+			gridRow: '-2 / -1',
+			gridColumn: '1 / 2'
+		}
 	},
 	map: {
 		gridRow: '2 / 3',
-		gridColumn: '2 / 3'
-		// gridArea: 'map',
+		gridColumn: '2 / 3',
+		'@media (max-width: 960px)': {
+			gridRow: '-2 / -1',
+			gridColumn: '1 / 2'
+		}
 	}
 };
+
+// styled components to toggle display of maps/results
+const DisplayMap = styled.div`@media (max-width: 960px) {${(props) => props.displayMap}}`;
+const DisplayResults = styled.div`@media (max-width: 960px) {${(props) => props.displayResults}}`;
 
 class App extends Component {
 	constructor(props) {
@@ -55,149 +88,60 @@ class App extends Component {
 			restaurants: [],
 			coordinates: { lat: 36.778261, lng: -119.4179324 },
 			resultsArea: 'startsearch',
-			showMap: true
+			showMap: false
 		};
 		this.fetchResults = this.fetchResults.bind(this);
 		this.submitMyLocation = this.submitMyLocation.bind(this);
+		this.handleShowMap = this.handleShowMap.bind(this);
 	}
 
 	async fetchResults(place) {
-		this.setState({ ...this.state, resultsArea: 'loading' });
+		this.setState((state) => ({ ...state, resultsArea: 'loading' }));
 		const { geometry: { location: coordinates } } = place;
 		const restaurants = await yelpResults(coordinates);
-		console.log(coordinates);
-		this.setState({ ...this.state, restaurants, coordinates, resultsArea: 'results' });
+		this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
 	}
 
 	async submitMyLocation() {
 		const { latitude: lat, longitude: lng } = await geoLocate();
 		const coordinates = { lat, lng };
 		const restaurants = await yelpResults(coordinates);
-		this.setState({ restaurants, coordinates });
+		this.setState((state) => ({ ...state, restaurants, coordinates }));
 	}
 
-	// async componentWillMount() {
-	// 	const mapsApiKey = await getApiKey();
-	// 	this.setState({ mapsApiKey });
-	// }
+	handleShowMap(event, checked) {
+		this.setState((state) => ({ ...state, showMap: checked }));
+	}
 
 	render() {
 		const { classes } = this.props;
 		const { restaurants, coordinates, resultsArea, showMap } = this.state;
+		const displayMap = showMap ? '' : 'display: none;';
+		const displayResults = showMap ? 'display: none;' : '';
 
 		return (
 			<div className={classes.root}>
 				<div className={classes.header}>
-					<Header fetchResults={this.fetchResults} submitMyLocation={this.submitMyLocation} />
-				</div>
-
-				<div className={classes.results}>
-					<ResultsArea results={restaurants} resultsArea={resultsArea} />
-				</div>
-				<div className={classes.map}>
-					<Map
-						results={restaurants}
-						center={coordinates}
-						zoom={13}
-						apiKey={MAPS_API_KEY}
-						// apiKey={this.state.mapsApiKey}
+					<Header
+						fetchResults={this.fetchResults}
+						submitMyLocation={this.submitMyLocation}
+						handleShowMap={this.handleShowMap}
 					/>
 				</div>
+				<div className={classes.showMapButton}>
+					<span>Show Map</span>
+					<Switch color="primary" value={showMap} onChange={this.handleShowMap} checked={showMap} />
+				</div>
+
+				<DisplayMap className={classes.map} displayMap={displayMap}>
+					<Map results={restaurants} center={coordinates} zoom={13} apiKey={MAPS_API_KEY} />
+				</DisplayMap>
+				<DisplayResults className={classes.results} displayResults={displayResults}>
+					<ResultsArea results={restaurants} resultsArea={resultsArea} />
+				</DisplayResults>
 			</div>
 		);
 	}
 }
 
 export default withStyles(styles)(App);
-
-{
-	/* <Hidden smDown>
-						<div className={classes.map}>
-							<Map
-								results={restaurants}
-								center={coordinates}
-								zoom={13}
-								apiKey={MAPS_API_KEY}
-								// apiKey={this.state.mapsApiKey}
-							/>
-						</div>
-					</Hidden> */
-}
-
-{
-	/* <Grid className={classes.root} container>
-				<Grid xs={12} md={8} className={classes.searchMapContainer} item>
-					<Grid className={classes.header} item>
-						<SearchBox fetchResults={this.fetchResults} />
-						<MyLocation submitMyLocation={this.submitMyLocation} />
-						<div>
-							<Hidden mdUp>
-								<Switch color="primary" value="showMap" />
-								<span>Show Map</span>
-							</Hidden>
-						</div>
-					</Grid>
-				</Grid>
-				<Grid xs={12} md={4} className={classes.results} item>
-					{isLoading ? (
-						<CircularProgress size={80} thickness={5} style={{ alignSelf: 'center', margin: 'auto' }} />
-					) : (
-						<SearchResults results={restaurants} />
-					)}
-				</Grid>
-				<div className={classes.map}>
-					<Map
-						results={restaurants}
-						center={coordinates}
-						zoom={13}
-						apiKey={MAPS_API_KEY}
-						// apiKey={this.state.mapsApiKey}
-					/>
-				</div>
-			</Grid> */
-}
-
-// root: {
-// 	display: 'flex',
-// 	backgroundColor: 'white',
-// 	flexDirection: 'row',
-// 	width: '100%',
-// 	justifyContent: 'space-around',
-// 	flexGrow: 1,
-// 	'@media (max-width: 960px)': {
-// 		flexDirection: 'column'
-// 	}
-// },
-// searchMapContainer: {
-// 	display: 'flex',
-// 	flexDirection: 'column'
-// },
-// results: {
-// 	display: 'flex',
-// 	flexDirection: 'column',
-// 	width: '30%',
-// 	height: '100vh',
-// 	borderTop: '1px solid lightgrey',
-// 	borderLeft: '1px solid lightgrey',
-// 	overflow: 'scroll',
-// 	'@media (max-width: 960px)': {
-// 		width: '100%'
-// 	}
-// },
-// map: {
-// 	width: '100%',
-// 	height: '100%',
-// 	borderTop: '1px solid lightgrey',
-// 	position: 'relative'
-// },
-// header: {
-// 	display: 'flex',
-// 	flexDirection: 'row',
-// 	alignItems: 'center',
-// 	justifyContent: 'space-evenly',
-// 	flexWrap: 'wrap',
-// 	padding: '1%',
-// 	'@media (max-width: 960px)': {
-// 		paddingBottom: '0'
-// 	}
-// }

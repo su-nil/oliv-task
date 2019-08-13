@@ -12,9 +12,7 @@ import { withStyles } from '@material-ui/styles';
 const styles = {
 	root: {
 		width: '100%',
-		height: '100%',
-		border: '1px solid lightgrey',
-		position: 'relative'
+		height: '100%'
 	}
 };
 
@@ -66,7 +64,7 @@ class Map extends Component {
 		return (
 			// Important! Always set the container height explicitly
 
-			<div style={{ height: '100%', width: '100%' }} className={classes.root}>
+			<div className={classes.root}>
 				<GoogleMapReact
 					bootstrapURLKeys={{ key: apiKey }}
 					center={center}
