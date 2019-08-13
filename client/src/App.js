@@ -32,36 +32,29 @@ const styles = {
 		gridTemplateRows: '90px 1fr',
 		gridTemplateColumns: '30vw 70vw',
 		'@media (max-width: 960px)': {
-			display: 'grid',
-			gridTemplateRows: '130px 1fr',
-			gridTemplateColumns: '100vw'
+			width: '100vw'
 		}
 	},
 
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
-		margin: 'auto 20px',
-		'@media (max-width: 960px)': {
-			gridRow: '1 / 2',
-			gridColumn: '1 / 2',
-			margin: 'auto 10px'
-		}
+		margin: 'auto 20px'
 	},
 	results: {
 		gridRow: '1 / 3',
 		gridColumn: '1 / 2',
 		'@media (max-width: 960px)': {
-			gridRow: '-2 / -1',
-			gridColumn: '1 / 2'
+			paddingTop: '120px',
+			width: '100vw'
 		}
 	},
 	map: {
 		gridRow: '2 / 3',
 		gridColumn: '2 / 3',
 		'@media (max-width: 960px)': {
-			gridRow: '-2 / -1',
-			gridColumn: '1 / 2'
+			paddingTop: '120px',
+			width: '100vw'
 		}
 	}
 };

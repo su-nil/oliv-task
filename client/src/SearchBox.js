@@ -69,6 +69,7 @@ const styles = (theme) => ({
 	},
 	searchText: {
 		marginLeft: '5%',
+		fontSize: '12px',
 		'@media (max-width: 960px)': {
 			display: 'none'
 		}

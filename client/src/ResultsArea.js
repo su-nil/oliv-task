@@ -26,8 +26,8 @@ const styles = {
 			textAlign: 'center',
 			color: 'grey',
 			fontWeight: 300,
-			fontSize: '1.3rem',
-			margin: '50px 20px'
+			fontSize: '20px',
+			margin: '20% 10%'
 		}
 	},
 	loader: {

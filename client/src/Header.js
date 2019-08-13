@@ -12,11 +12,16 @@ const styles = {
 		gridTemplateColumns: '80% 20%',
 		gridTemplateRows: '100%',
 		'@media (max-width: 960px)': {
-			width: '100%',
+			width: '95vw',
 			display: 'grid',
 			gridTemplateColumns: 'repeat(10, 10%)',
 			gridTemplateRows: '55% 45%',
-			rowGap: '7px'
+			rowGap: '7px',
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			marginTop: '10px',
+			marginLeft: '2.5vw'
 		}
 	},
 	searchBox: {

@@ -25,6 +25,7 @@ const styles = {
 	myLocationButtonText: {
 		marginLeft: '5%',
 		whiteSpace: 'nowrap',
+		fontSize: '12px',
 		'@media (max-width: 960px)': {
 			// display: 'none'
 			fontSize: '0.7rem'
