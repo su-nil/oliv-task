@@ -23,7 +23,7 @@ const styles = {
 			color: 'grey',
 			fontWeight: 300,
 			fontSize: '20px',
-			margin: '50% 10%'
+			margin: '30% 20%'
 		}
 	},
 	loader: {

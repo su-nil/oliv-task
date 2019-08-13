@@ -35,6 +35,14 @@ const styles = (theme) => ({
 	container: {
 		position: 'relative'
 	},
+	suggestionsContainer: {
+		'@media (max-width: 600px)': {
+			// '& > *': {
+			// 	fontSize: '12px'
+			// }
+			width: '95vw'
+		}
+	},
 	suggestionsContainerOpen: {
 		position: 'absolute',
 		zIndex: 1,
@@ -43,7 +51,12 @@ const styles = (theme) => ({
 		right: 0
 	},
 	suggestion: {
-		display: 'block'
+		display: 'block',
+		'@media (max-width: 600px)': {
+			'& > *': {
+				fontSize: '12px'
+			}
+		}
 	},
 	suggestionsList: {
 		margin: 0,
@@ -191,7 +204,7 @@ class SearchBox extends Component {
 							inputProps={{
 								classes,
 								id: 'autosuggest',
-								placeholder: 'Search restaurants',
+								placeholder: 'Search restaurants...',
 								value,
 								onChange: this.onChange
 							}}
@@ -199,6 +212,7 @@ class SearchBox extends Component {
 								container: classes.container,
 								suggestionsContainerOpen: classes.suggestionsContainerOpen,
 								suggestionsList: classes.suggestionsList,
+								suggestionsContainer: classes.suggestionsContainer,
 								suggestion: classes.suggestion
 							}}
 							renderSuggestionsContainer={(options) => (
