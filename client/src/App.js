@@ -32,10 +32,12 @@ const styles = {
 		gridTemplateRows: '90px 1fr',
 		gridTemplateColumns: '30vw 70vw',
 		'@media (max-width: 960px)': {
-			width: '100vw'
+			width: '100vw',
+			display: 'grid',
+			gridTemplateRows: '100vh',
+			gridTemplateColumns: '100vw'
 		}
 	},
-
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
@@ -46,7 +48,9 @@ const styles = {
 		gridColumn: '1 / 2',
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
-			width: '100vw'
+			width: '100vw',
+			gridRow: '1 / -1',
+			gridColumn: '1 / -1'
 		}
 	},
 	map: {
@@ -54,7 +58,9 @@ const styles = {
 		gridColumn: '2 / 3',
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
-			width: '100vw'
+			width: '100vw',
+			gridRow: '1 / -1',
+			gridColumn: '1 / -1'
 		}
 	}
 };
