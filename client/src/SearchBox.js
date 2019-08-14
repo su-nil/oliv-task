@@ -35,14 +35,6 @@ const styles = (theme) => ({
 	container: {
 		position: 'relative'
 	},
-	suggestionsContainer: {
-		'@media (max-width: 600px)': {
-			// '& > *': {
-			// 	fontSize: '12px'
-			// }
-			width: '95vw'
-		}
-	},
 	suggestionsContainerOpen: {
 		position: 'absolute',
 		zIndex: 1,
