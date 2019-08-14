@@ -36,6 +36,11 @@ const styles = {
 };
 
 class ResultsArea extends Component {
+	shouldComponentUpdate(nextProps, nextState) {
+		if (nextProps.resultsArea === this.props.resultsArea) return false;
+		return true;
+	}
+
 	render() {
 		const { results, classes, resultsArea } = this.props;
 		let renderResults;

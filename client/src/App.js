@@ -103,7 +103,7 @@ class App extends Component {
 		this.fetchResults = this.fetchResults.bind(this);
 		this.submitMyLocation = this.submitMyLocation.bind(this);
 		this.handleShowMap = this.handleShowMap.bind(this);
-		this.handleError = this.handleError.bind(this);
+		this.handleErrorChange = this.handleErrorChange.bind(this);
 	}
 
 	async fetchResults(place) {
@@ -116,7 +116,8 @@ class App extends Component {
 		if (!restaurants) {
 			error = 'Unable to find restaurants in the searched location.';
 			console.error(err);
-			this.handleError(error);
+			console.log('ERROR:', error);
+			this.handleErrorChange(error);
 			return;
 		} else {
 			this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
@@ -130,7 +131,8 @@ class App extends Component {
 		if (!coordinates) {
 			error = 'Unable to fetch your location.';
 			console.error(err);
-			this.handleError(error);
+			console.log('ERROR:', error);
+			this.handleErrorChange(error);
 			return;
 		} else {
 			this.setState((state) => ({ ...state, coordinates }));
@@ -140,7 +142,8 @@ class App extends Component {
 		if (!restaurants) {
 			error = 'Unable to find restaurants in your current location. Try searching in some other location.';
 			console.error(err);
-			this.handleError(error);
+			console.log('ERROR:', error);
+			this.handleErrorChange(error);
 			return;
 		} else {
 			this.setState((state) => ({ ...state, restaurants }));
@@ -151,7 +154,7 @@ class App extends Component {
 		this.setState((state) => ({ ...state, showMap: checked }));
 	}
 
-	handleError(error) {
+	handleErrorChange(error) {
 		this.setState((state) => ({ ...state, restaurants: [], resultsArea: 'startsearch', error }));
 	}
 
@@ -169,7 +172,7 @@ class App extends Component {
 						submitMyLocation={this.submitMyLocation}
 						handleShowMap={this.handleShowMap}
 						showMap={showMap}
-						handleError={this.handleError}
+						handleErrorChange={this.handleErrorChange}
 					/>
 				</div>
 				<div className={classes.fixedDiv} />

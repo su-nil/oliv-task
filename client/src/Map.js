@@ -53,6 +53,16 @@ class Map extends Component {
 		};
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		const { lat: nxtLat, lng: nxtLng } = nextProps.center;
+		const { lat, lng } = this.props.center;
+		if (lat === nxtLat && lng === nxtLng) return false;
+		return true;
+	}
+
+	componentDidUpdate() {
+		console.log('maps updated');
+	}
 	render() {
 		const { center, zoom, classes, results, apiKey } = this.props;
 

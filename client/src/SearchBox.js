@@ -143,14 +143,13 @@ class SearchBox extends Component {
 		const searchString = this.state.value;
 		this.setState((state) => ({ ...state, value: '' }));
 
-		// TODO Clear results area when form is submitted
-		// when there is an error, the results must still be cleared
 		let error, err, place;
 		[ err, place ] = await to(placeSearch(searchString));
 		if (!place) {
 			error = 'Google Maps cannot find the searched location.';
 			console.error(err);
-			this.props.handleError(error);
+			console.log('ERROR:', error);
+			this.props.handleErrorChange(error);
 			return;
 		}
 		this.props.fetchResults(place);
@@ -163,7 +162,8 @@ class SearchBox extends Component {
 		if (!suggestions) {
 			error = 'Google Maps Autosuggest API not working.';
 			console.error(err);
-			this.props.handleError(error);
+			console.log('ERROR:', error);
+			this.props.handleErrorChange(error);
 			return;
 		} else {
 			this.setState((state) => ({ ...state, suggestions }));
@@ -185,7 +185,7 @@ class SearchBox extends Component {
 	};
 
 	render() {
-		const { classes, handleError } = this.props;
+		const { classes, handleErrorChange } = this.props;
 		const { suggestions, value } = this.state;
 		const autosuggestProps = {
 			renderInputComponent,
@@ -194,7 +194,7 @@ class SearchBox extends Component {
 			onSuggestionsClearRequested: this.onSuggestionsClearRequested,
 			renderSuggestion,
 			getSuggestionValue,
-			handleError,
+			handleErrorChange,
 			highlightFirstSuggestion: true
 		};
 		return (
