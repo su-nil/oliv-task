@@ -3,7 +3,7 @@ import axios from 'axios';
 export default function getSuggestions(query) {
 	return new Promise((resolve, reject) => {
 		axios
-			.get(`http://localhost:8000/autocomplete/${query}`)
+			.get(`/autocomplete/${query}`)
 			.then((response) => {
 				const places = response.data.map((place) => {
 					return {
