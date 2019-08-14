@@ -1,8 +1,3 @@
-// TODO Refactor styles, move to new file
-// TODO Separate styling between App and this component
-// TODO try catch for all async/await/promises
-// TODO Refactor Autosuggest component
-
 import React, { Component } from 'react';
 import uuid from 'uuid';
 import to from 'await-to-js';
@@ -145,9 +140,13 @@ class SearchBox extends Component {
 
 	async handleSubmit(e) {
 		e.preventDefault();
+		const searchString = this.state.value;
+		this.setState((state) => ({ ...state, value: '' }));
 
+		// TODO Clear results area when form is submitted
+		// when there is an error, the results must still be cleared
 		let error, err, place;
-		[ err, place ] = await to(placeSearch(this.state.value));
+		[ err, place ] = await to(placeSearch(searchString));
 		if (!place) {
 			error = 'Google Maps cannot find the searched location.';
 			console.error(err);
@@ -155,7 +154,6 @@ class SearchBox extends Component {
 			return;
 		}
 		this.props.fetchResults(place);
-		this.setState((state) => ({ ...state, value: '' }));
 	}
 
 	onSuggestionsFetchRequested = async ({ value }) => {

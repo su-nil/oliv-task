@@ -107,13 +107,20 @@ class App extends Component {
 	}
 
 	async fetchResults(place) {
-		// let error;
-
 		this.setState((state) => ({ ...state, resultsArea: 'loading' }));
-
 		const { geometry: { location: coordinates } } = place;
-		const restaurants = await yelpResults(coordinates);
-		this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
+
+		let error, err, restaurants;
+
+		[ err, restaurants ] = await to(yelpResults(coordinates));
+		if (!restaurants) {
+			error = 'Unable to find restaurants in the searched location.';
+			console.error(err);
+			this.handleError(error);
+			return;
+		} else {
+			this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
+		}
 	}
 
 	async submitMyLocation() {
@@ -123,7 +130,7 @@ class App extends Component {
 		if (!coordinates) {
 			error = 'Unable to fetch your location.';
 			console.error(err);
-			this.setState((state) => ({ ...state, error }));
+			this.handleError(error);
 			return;
 		} else {
 			this.setState((state) => ({ ...state, coordinates }));
@@ -133,7 +140,7 @@ class App extends Component {
 		if (!restaurants) {
 			error = 'Unable to find restaurants in your current location. Try searching in some other location.';
 			console.error(err);
-			this.setState((state) => ({ ...state, error }));
+			this.handleError(error);
 			return;
 		} else {
 			this.setState((state) => ({ ...state, restaurants }));
@@ -145,7 +152,7 @@ class App extends Component {
 	}
 
 	handleError(error) {
-		this.setState((state) => ({ ...state, error }));
+		this.setState((state) => ({ ...state, restaurants: [], resultsArea: 'startsearch', error }));
 	}
 
 	render() {
