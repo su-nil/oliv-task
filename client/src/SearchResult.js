@@ -16,6 +16,10 @@ const styles = {
 		justifyContent: 'flex-start',
 		alignItems: 'center'
 	},
+	title: {
+		fontSize: '16px'
+	},
+	details: {},
 	ratingPriceContainer: {
 		display: 'flex',
 		flexDirection: 'row',
@@ -28,10 +32,6 @@ const styles = {
 		marginLeft: '10px',
 		fontWeight: '600'
 	},
-	title: {
-		fontSize: '16px'
-	},
-	details: {},
 	address: { fontSize: '14px' },
 	image: {
 		margin: '2% 20px 2% auto',
