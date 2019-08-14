@@ -15,7 +15,11 @@ const styles = {
 		height: '100%',
 		width: '100%',
 		display: 'flex',
-		flexDirection: 'column'
+		flexDirection: 'column',
+		borderRight: '1px solid lightgrey',
+		'@media (max-width: 960px)': {
+			border: 'none'
+		}
 	},
 	startSearch: {
 		'& h4': {
@@ -23,7 +27,7 @@ const styles = {
 			color: 'grey',
 			fontWeight: 300,
 			fontSize: '20px',
-			margin: '30% 20%'
+			margin: '20% 20% auto 20%'
 		}
 	},
 	loader: {
@@ -46,7 +50,7 @@ class ResultsArea extends Component {
 		let renderResults;
 		switch (resultsArea) {
 			case 'loading':
-				renderResults = <CircularProgress size={80} thickness={5} className={classes.loader} />;
+				renderResults = <CircularProgress size={50} thickness={5} className={classes.loader} />;
 				break;
 			case 'results':
 				renderResults = (

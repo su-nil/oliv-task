@@ -31,11 +31,14 @@ const styles = (theme) => ({
 	container: {
 		position: 'relative'
 	},
+<<<<<<< HEAD
 	suggestionsContainer: {
 		'@media (max-width: 600px)': {
 			width: '100vw'
 		}
 	},
+=======
+>>>>>>> styling
 	suggestionsContainerOpen: {
 		position: 'absolute',
 		zIndex: 1,

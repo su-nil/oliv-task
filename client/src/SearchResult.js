@@ -16,7 +16,23 @@ const styles = {
 		justifyContent: 'flex-start',
 		alignItems: 'center'
 	},
+	title: {
+		fontSize: '16px'
+	},
 	details: {},
+	ratingPriceContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start'
+	},
+	price: {
+		fontSize: '14px',
+		color: 'grey',
+		marginLeft: '10px',
+		fontWeight: '600'
+	},
+	address: { fontSize: '14px' },
 	image: {
 		margin: '2% 20px 2% auto',
 		height: '100px',
@@ -30,30 +46,18 @@ export class SearchResult extends Component {
 		return (
 			<Card className={classes.root} raised>
 				<CardContent className={classes.details}>
-					<Typography variant="h6" style={{ fontSize: '16px' }}>
+					<span variant="h6" className={classes.title}>
 						{name}
-					</Typography>
-					<Grid
-						container
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'center',
-							justifyContent: 'flex-start'
-						}}
-					>
+					</span>
+					<span className={classes.ratingPriceContainer}>
 						<Rating value={rating} precision={0.5} size="small" />
-						<Typography
-							variant="subtitle1"
-							style={{ fontSize: '14px', color: 'grey', marginLeft: '10px', fontWeight: '600' }}
-						>
+						<Typography className={classes.price} variant="subtitle1">
 							{price}
 						</Typography>
-					</Grid>
-
-					<Typography variant="subtitle1" style={{ fontSize: '14px' }}>
+					</span>
+					<span variant="subtitle1" className={classes.address}>
 						{formatted_address}
-					</Typography>
+					</span>
 				</CardContent>
 				<CardMedia className={classes.image} image={photos[0]} title={name} />
 			</Card>

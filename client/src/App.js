@@ -32,6 +32,7 @@ const styles = {
 	root: {
 		display: 'grid',
 		height: '100vh',
+		borderTop: '1px solid lightgrey',
 		gridTemplateRows: '90px 1fr',
 		gridTemplateColumns: '30vw 70vw',
 		'@media (max-width: 960px)': {
