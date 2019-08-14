@@ -6,6 +6,8 @@
 // TODO Employ react router with LatLng/place as req parameter
 // TODO Refactor to Hooks
 
+// TODO Yelpresults not return empty if place is not searchable
+
 import React, { Component } from 'react';
 import to from 'await-to-js';
 import ResultsArea from './ResultsArea';
@@ -101,10 +103,11 @@ class App extends Component {
 		this.fetchResults = this.fetchResults.bind(this);
 		this.submitMyLocation = this.submitMyLocation.bind(this);
 		this.handleShowMap = this.handleShowMap.bind(this);
+		this.handleError = this.handleError.bind(this);
 	}
 
 	async fetchResults(place) {
-		let error;
+		// let error;
 
 		this.setState((state) => ({ ...state, resultsArea: 'loading' }));
 
@@ -119,6 +122,7 @@ class App extends Component {
 		[ err, coordinates ] = await to(geoLocate());
 		if (!coordinates) {
 			error = 'Unable to fetch your location.';
+			console.error(err);
 			this.setState((state) => ({ ...state, error }));
 			return;
 		} else {
@@ -126,8 +130,9 @@ class App extends Component {
 		}
 
 		[ err, restaurants ] = await to(yelpResults(coordinates));
-		if (restaurants.length === 0) {
+		if (!restaurants) {
 			error = 'Unable to find restaurants in your current location. Try searching in some other location.';
+			console.error(err);
 			this.setState((state) => ({ ...state, error }));
 			return;
 		} else {
@@ -137,6 +142,10 @@ class App extends Component {
 
 	handleShowMap(event, checked) {
 		this.setState((state) => ({ ...state, showMap: checked }));
+	}
+
+	handleError(error) {
+		this.setState((state) => ({ ...state, error }));
 	}
 
 	render() {
@@ -153,6 +162,7 @@ class App extends Component {
 						submitMyLocation={this.submitMyLocation}
 						handleShowMap={this.handleShowMap}
 						showMap={showMap}
+						handleError={this.handleError}
 					/>
 				</div>
 				<div className={classes.fixedDiv} />

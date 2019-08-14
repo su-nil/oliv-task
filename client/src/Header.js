@@ -68,11 +68,11 @@ const styles = {
 
 class Header extends Component {
 	render() {
-		const { classes, fetchResults, submitMyLocation, handleShowMap, showMap } = this.props;
+		const { classes, fetchResults, submitMyLocation, handleShowMap, handleError, showMap } = this.props;
 		return (
 			<div className={classes.root}>
 				<div className={classes.searchBox}>
-					<SearchBox fetchResults={fetchResults} />
+					<SearchBox fetchResults={fetchResults} handleError={handleError} />
 				</div>
 				<div className={classes.myLocationButton}>
 					<MyLocation submitMyLocation={submitMyLocation} />

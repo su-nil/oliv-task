@@ -5,7 +5,8 @@
 
 import React, { Component } from 'react';
 import uuid from 'uuid';
-import autocomplete from './autocompleteHelper';
+import to from 'await-to-js';
+import getSuggestions from './suggestionsHelper';
 import placeSearch from './placeSearchHelper';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
@@ -111,7 +112,12 @@ function renderInputComponent(inputProps) {
 	);
 }
 
-function renderSuggestion(suggestion, { query, isHighlighted }) {
+function getSuggestionValue(suggestion) {
+	return suggestion.value;
+}
+
+function renderSuggestion(suggestionObject, { query, isHighlighted }) {
+	const suggestion = getSuggestionValue(suggestionObject);
 	const matches = match(suggestion, query);
 	const parts = parse(suggestion, matches);
 	return (
@@ -125,20 +131,6 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
 			</div>
 		</MenuItem>
 	);
-}
-
-async function getSuggestions(value) {
-	try {
-		const suggestions = await autocomplete(value).then((res) => res);
-		return suggestions;
-	} catch (error) {
-		console.log('error');
-		return [];
-	}
-}
-
-function getSuggestionValue(suggestion) {
-	return suggestion;
 }
 
 class SearchBox extends Component {
@@ -159,11 +151,17 @@ class SearchBox extends Component {
 	}
 
 	onSuggestionsFetchRequested = async ({ value }) => {
-		const suggestions = await getSuggestions(value);
-		this.setState((state) => ({
-			...state,
-			suggestions
-		}));
+		let error, err, suggestions;
+
+		[ err, suggestions ] = await to(getSuggestions(value));
+		if (!suggestions) {
+			error = 'Google Maps Autosuggest API not working.';
+			console.error(err);
+			this.props.handleError(error);
+			return;
+		} else {
+			this.setState((state) => ({ ...state, suggestions }));
+		}
 	};
 
 	onSuggestionsClearRequested = () => {
@@ -181,15 +179,16 @@ class SearchBox extends Component {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, handleError } = this.props;
 		const { suggestions, value } = this.state;
 		const autosuggestProps = {
 			renderInputComponent,
 			suggestions,
 			onSuggestionsFetchRequested: this.onSuggestionsFetchRequested,
 			onSuggestionsClearRequested: this.onSuggestionsClearRequested,
-			getSuggestionValue,
 			renderSuggestion,
+			getSuggestionValue,
+			handleError,
 			highlightFirstSuggestion: true
 		};
 		return (
@@ -232,12 +231,3 @@ class SearchBox extends Component {
 }
 
 export default withStyles(styles)(SearchBox);
-
-// display: 'flex',
-// 		flexDirection: 'row',
-// 		flexWrap: 'nowrap',
-// 		justifyContent: 'flex-start',
-// 		alignItems: 'center',
-// 		margin: 'auto',
-// 		flexGrow: 1,
-// 		minWidth: '500px'

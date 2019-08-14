@@ -5,7 +5,6 @@ const limit = 20;
 
 module.exports = function(app, db) {
 	app.get('/yelp/:lat/:lng', (req, res) => {
-		console.log('limit', limit);
 		axios({
 			url: 'https://api.yelp.com/v3/graphql',
 			method: 'post',

@@ -11,7 +11,7 @@ module.exports = function(app, db) {
 					.query}&key=${config.mapsApiKey}`
 			)
 			.then(function(response) {
-				if (response.data.status == 'OK') {
+				if (response.data.status === 'OK') {
 					console.dir(response.data.results);
 					res.json(response.data.results);
 				} else {

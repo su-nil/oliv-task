@@ -1,10 +1,4 @@
-// TODO Prompt when geolocation is not available in navigator
-// TODO Error when geolocation doesn't return location
-
-export default async function geoLocate() {
-	// send location
-	// send error
-
+export default function geoLocate() {
 	return new Promise((resolve, reject) => {
 		var options = {
 			enableHighAccuracy: true,
