@@ -38,7 +38,6 @@ const styles = {
 			gridTemplateColumns: '100vw'
 		}
 	},
-
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
@@ -48,24 +47,28 @@ const styles = {
 	results: {
 		gridRow: '1 / 3',
 		gridColumn: '1 / 2',
-		zIndex: -100,
+		zIndex: 0,
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
-			grid: '1 / 2 / 1 / 2'
+			width: '100vw',
+			gridRow: '1 / -1',
+			gridColumn: '1 / -1'
 		}
 	},
 	map: {
 		gridRow: '2 / 3',
 		gridColumn: '2 / 3',
-		zIndex: -100,
+		zIndex: 0,
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
-			gridArea: '1 / 1 / 2 / 2'
+			width: '100vw',
+			gridRow: '1 / -1',
+			gridColumn: '1 / -1'
 		}
 	},
 	fixedDiv: {
 		display: 'none',
-		zIndex: -1,
+		zIndex: 1,
 		'@media (max-width: 960px)': {
 			display: 'block',
 			position: 'fixed',

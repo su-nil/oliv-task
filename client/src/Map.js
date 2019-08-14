@@ -12,7 +12,8 @@ import { withStyles } from '@material-ui/styles';
 const styles = {
 	root: {
 		width: '100%',
-		height: '100%'
+		height: '100%',
+		borderTop: '1px solid lightgrey'
 	}
 };
 

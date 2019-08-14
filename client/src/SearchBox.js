@@ -58,6 +58,11 @@ const styles = (theme) => ({
 			}
 		}
 	},
+	suggestionsContainer: {
+		'@media (max-width: 600px)': {
+			width: '95vw'
+		}
+	},
 	suggestionsList: {
 		margin: 0,
 		padding: 0,
@@ -212,8 +217,8 @@ class SearchBox extends Component {
 								container: classes.container,
 								suggestionsContainerOpen: classes.suggestionsContainerOpen,
 								suggestionsList: classes.suggestionsList,
-								suggestionsContainer: classes.suggestionsContainer,
-								suggestion: classes.suggestion
+								suggestion: classes.suggestion,
+								suggestionsContainer: classes.suggestionsContainer
 							}}
 							renderSuggestionsContainer={(options) => (
 								<Paper {...options.containerProps} square>
