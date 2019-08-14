@@ -41,11 +41,13 @@ const styles = {
 	header: {
 		gridRow: '1 / 2',
 		gridColumn: '2 / 3',
-		margin: 'auto 20px'
+		margin: 'auto 20px',
+		zIndex: 100
 	},
 	results: {
 		gridRow: '1 / 3',
 		gridColumn: '1 / 2',
+		zIndex: 0,
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
 			width: '100vw',
@@ -56,6 +58,7 @@ const styles = {
 	map: {
 		gridRow: '2 / 3',
 		gridColumn: '2 / 3',
+		zIndex: 0,
 		'@media (max-width: 960px)': {
 			paddingTop: '120px',
 			width: '100vw',
