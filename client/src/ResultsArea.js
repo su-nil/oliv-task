@@ -27,7 +27,7 @@ const styles = {
 			color: 'grey',
 			fontWeight: 300,
 			fontSize: '20px',
-			margin: '30% 20%'
+			margin: '20% 20% auto 20%'
 		}
 	},
 	loader: {
