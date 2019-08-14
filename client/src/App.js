@@ -65,6 +65,20 @@ const styles = {
 			gridRow: '1 / -1',
 			gridColumn: '1 / -1'
 		}
+	},
+	fixedDiv: {
+		display: 'none',
+		zIndex: 1,
+		'@media (max-width: 960px)': {
+			display: 'block',
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			height: '120px',
+			width: '100vw',
+			backgroundColor: 'white',
+			boxShadow: '0px 1px 3px 1px rgba(0,0,0,0.15)'
+		}
 	}
 };
 
@@ -121,10 +135,7 @@ class App extends Component {
 						showMap={showMap}
 					/>
 				</div>
-				{/* <div className={classes.showMapButton}>
-					<span>Show Map</span>
-					<Switch color="primary" value={showMap} onChange={this.handleShowMap} checked={showMap} />
-				</div> */}
+				<div className={classes.fixedDiv} />
 
 				<DisplayMap className={classes.map} displayMap={displayMap}>
 					<Map results={restaurants} center={coordinates} zoom={13} apiKey={MAPS_API_KEY} />
