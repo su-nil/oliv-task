@@ -60,9 +60,6 @@ class Map extends Component {
 		return true;
 	}
 
-	componentDidUpdate() {
-		console.log('maps updated');
-	}
 	render() {
 		const { center, zoom, classes, results, apiKey } = this.props;
 
@@ -73,8 +70,6 @@ class Map extends Component {
 		});
 
 		return (
-			// Important! Always set the container height explicitly
-
 			<div className={classes.root}>
 				<GoogleMapReact
 					bootstrapURLKeys={{ key: apiKey }}
