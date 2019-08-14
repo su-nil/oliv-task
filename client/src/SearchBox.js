@@ -43,7 +43,10 @@ const styles = (theme) => ({
 		right: 0
 	},
 	suggestion: {
-		display: 'block'
+		display: 'block',
+		'& > *': {
+			fontSize: '12px'
+		}
 	},
 	suggestionsContainer: {
 		'@media (max-width: 600px)': {
