@@ -1,10 +1,13 @@
-// TODO Try catch and throw error when location doesn't have any business and other errors
-
 import axios from 'axios';
 
-export default async function yelpResults({ lat, lng }) {
-	const results = await axios.get(`/yelp/${lat}/${lng}`).then((response) => {
-		return response;
+export default function yelpResults({ lat, lng }) {
+	return new Promise((resolve, reject) => {
+		axios
+			.get(`/yelp/${lat}/${lng}`)
+			.then((response) => {
+				const businesses = response.data.data.search.business;
+				resolve(businesses);
+			})
+			.catch((error) => reject(error));
 	});
-	return results.data.data.search.business;
 }

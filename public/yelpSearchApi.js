@@ -1,6 +1,5 @@
 // TODO Error reporting, try catch
 const axios = require('axios');
-const config = require('./config');
 const limit = 20;
 
 module.exports = function(app, db) {
@@ -33,14 +32,14 @@ module.exports = function(app, db) {
 			    }`
 			},
 			headers: {
-				Authorization: `Bearer ${config.yelpApiKey}`,
+				Authorization: `Bearer ${process.env.YELP_API_KEY}`,
 				'Content-Type': 'application/json'
 			}
 		})
 			.then((result) => {
 				res.json(result.data);
 			})
-			.catch(function(error) {
+			.catch((error) => {
 				res.status(500).send('There was an error!');
 			});
 	});

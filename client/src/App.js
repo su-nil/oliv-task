@@ -1,11 +1,3 @@
-// TODO try catch for all async/await and promises, display MateriaalUI dialog when there is an error
-// TODO Refactor styles, possibly move it to a separate file
-// TODO Move inline styles to styles object
-// TODO Figure out proper way to fetch API key from backend server
-// TODO Use LocalStorage to display restaurants
-// TODO Employ react router with LatLng/place as req parameter
-// TODO Refactor to Hooks
-
 // TODO Yelpresults not return empty if place is not searchable
 
 import React, { Component } from 'react';
@@ -16,15 +8,9 @@ import Header from './Header';
 
 import yelpResults from './yelpHelper';
 import geoLocate from './geolocationHelpher';
-import getApiKey from './getApiKey';
 
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/styles';
-
-/*
-Note: Temporarily using API key on client side since fetching Api Key from backend darkens map 
-and prompts that the maps is not rendered properly 
-*/
 
 const MAPS_API_KEY = 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw';
 
@@ -115,6 +101,12 @@ class App extends Component {
 
 		[ err, restaurants ] = await to(yelpResults(coordinates));
 		if (!restaurants) {
+			error = 'Yelp API not working.';
+			console.error(err);
+			console.log('ERROR:', error);
+			this.handleErrorChange(error);
+			return;
+		} else if (restaurants.length === 0) {
 			error = 'Unable to find restaurants in the searched location.';
 			console.error(err);
 			console.log('ERROR:', error);
@@ -141,6 +133,12 @@ class App extends Component {
 
 		[ err, restaurants ] = await to(yelpResults(coordinates));
 		if (!restaurants) {
+			error = 'Yelp API not working.';
+			console.error(err);
+			console.log('ERROR:', error);
+			this.handleErrorChange(error);
+			return;
+		} else if (restaurants.length === 0) {
 			error = 'Unable to find restaurants in your current location. Try searching in some other location.';
 			console.error(err);
 			console.log('ERROR:', error);
