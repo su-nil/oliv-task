@@ -1,9 +1,10 @@
 import axios from 'axios';
+const PATH = process.env.SERVER_URL || 'http://localhost:8000';
 
 export default function getSuggestions(query) {
 	return new Promise((resolve, reject) => {
 		axios
-			.get(`http://localhost:8000/autocomplete/${query}`)
+			.get(`${PATH}/autocomplete/${query}`)
 			.then((response) => {
 				const places = response.data.map((place) => {
 					return {
