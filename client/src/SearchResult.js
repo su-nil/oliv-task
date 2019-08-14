@@ -1,10 +1,9 @@
-// TODO Move inline styles to style object
 // TODO Add Opening hours, phone number to search result
 // TODO Add photo slider if there are more than one photo
 
 import React, { Component } from 'react';
 import Rating from '@material-ui/lab/Rating';
-import { Grid, Typography, CardContent, Card, CardMedia } from '@material-ui/core';
+import { Typography, CardContent, Card, CardMedia } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const styles = {
