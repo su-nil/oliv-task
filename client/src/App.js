@@ -7,6 +7,7 @@
 // TODO Refactor to Hooks
 
 import React, { Component } from 'react';
+import to from 'await-to-js';
 import ResultsArea from './ResultsArea';
 import Map from './Map';
 import Header from './Header';
@@ -94,7 +95,8 @@ class App extends Component {
 			restaurants: [],
 			coordinates: { lat: 36.778261, lng: -119.4179324 },
 			resultsArea: 'startsearch',
-			showMap: false
+			showMap: false,
+			error: ''
 		};
 		this.fetchResults = this.fetchResults.bind(this);
 		this.submitMyLocation = this.submitMyLocation.bind(this);
@@ -109,10 +111,25 @@ class App extends Component {
 	}
 
 	async submitMyLocation() {
-		const { latitude: lat, longitude: lng } = await geoLocate();
-		const coordinates = { lat, lng };
-		const restaurants = await yelpResults(coordinates);
-		this.setState((state) => ({ ...state, restaurants, coordinates }));
+		let error, err, coordinates, restaurants;
+		[ err, coordinates ] = await to(geoLocate());
+		if (!coordinates) {
+			error = 'Unable to fetch your location.';
+			await this.setState((state) => ({ ...state, error }));
+			return;
+		} else {
+			await this.setState((state) => ({ ...state, coordinates }));
+		}
+
+		[ err, restaurants ] = await to(yelpResults(coordinates));
+
+		if (restaurants.length === 0) {
+			error = 'Unable to find restaurants in your current location. Try searching in some other location.';
+			await this.setState((state) => ({ ...state, error }));
+			return;
+		} else {
+			await this.setState((state) => ({ ...state, restaurants }));
+		}
 	}
 
 	handleShowMap(event, checked) {

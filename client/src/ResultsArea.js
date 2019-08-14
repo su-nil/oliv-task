@@ -36,22 +36,10 @@ const styles = {
 };
 
 class ResultsArea extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		const { results, classes, resultsArea } = this.props;
 		let renderResults;
-
 		switch (resultsArea) {
-			case 'startsearch':
-				renderResults = (
-					<div className={classes.startSearch}>
-						<h4>Your search results will appear here...</h4>
-					</div>
-				);
-				break;
 			case 'loading':
 				renderResults = <CircularProgress size={80} thickness={5} className={classes.loader} />;
 				break;
@@ -62,6 +50,12 @@ class ResultsArea extends Component {
 					</div>
 				);
 				break;
+			default:
+				renderResults = (
+					<div className={classes.startSearch}>
+						<h4>Your search results will appear here...</h4>
+					</div>
+				);
 		}
 
 		return <div className={classes.root}>{renderResults}</div>;

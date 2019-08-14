@@ -49,7 +49,6 @@ const styles = {
 	showMapButton: {
 		display: 'none',
 		'@media (max-width: 960px)': {
-			display: 'block',
 			gridRow: '2 / 3',
 			gridColumn: 'span 5 / -1',
 			display: 'flex',

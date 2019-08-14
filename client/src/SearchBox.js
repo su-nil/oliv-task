@@ -11,7 +11,7 @@ import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 
-import { TextField, MenuItem, Button, InputAdornment, Paper, Hidden } from '@material-ui/core';
+import { TextField, MenuItem, Button, Paper } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -37,10 +37,7 @@ const styles = (theme) => ({
 	},
 	suggestionsContainer: {
 		'@media (max-width: 600px)': {
-			// '& > *': {
-			// 	fontSize: '12px'
-			// }
-			width: '95vw'
+			width: '100vw'
 		}
 	},
 	suggestionsContainerOpen: {
@@ -56,11 +53,6 @@ const styles = (theme) => ({
 			'& > *': {
 				fontSize: '12px'
 			}
-		}
-	},
-	suggestionsContainer: {
-		'@media (max-width: 600px)': {
-			width: '95vw'
 		}
 	},
 	suggestionsList: {

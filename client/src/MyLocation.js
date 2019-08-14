@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
-import { Hidden, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 const styles = {
 	root: {
