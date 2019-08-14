@@ -1,4 +1,4 @@
-// TODO Error reporting, try catch
+// TODO Better error reporting by checking the JSON content
 const axios = require('axios');
 const limit = 20;
 

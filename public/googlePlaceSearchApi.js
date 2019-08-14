@@ -9,7 +9,6 @@ module.exports = function(app, db) {
 			)
 			.then((response) => {
 				if (response.data.status === 'OK') {
-					console.dir(response.data.results);
 					res.json(response.data.results);
 				} else {
 					res.status(400).send('Error');
