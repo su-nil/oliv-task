@@ -104,7 +104,10 @@ class App extends Component {
 	}
 
 	async fetchResults(place) {
+		let error;
+
 		this.setState((state) => ({ ...state, resultsArea: 'loading' }));
+
 		const { geometry: { location: coordinates } } = place;
 		const restaurants = await yelpResults(coordinates);
 		this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
@@ -112,23 +115,23 @@ class App extends Component {
 
 	async submitMyLocation() {
 		let error, err, coordinates, restaurants;
+
 		[ err, coordinates ] = await to(geoLocate());
 		if (!coordinates) {
 			error = 'Unable to fetch your location.';
-			await this.setState((state) => ({ ...state, error }));
+			this.setState((state) => ({ ...state, error }));
 			return;
 		} else {
-			await this.setState((state) => ({ ...state, coordinates }));
+			this.setState((state) => ({ ...state, coordinates }));
 		}
 
 		[ err, restaurants ] = await to(yelpResults(coordinates));
-
 		if (restaurants.length === 0) {
 			error = 'Unable to find restaurants in your current location. Try searching in some other location.';
-			await this.setState((state) => ({ ...state, error }));
+			this.setState((state) => ({ ...state, error }));
 			return;
 		} else {
-			await this.setState((state) => ({ ...state, restaurants }));
+			this.setState((state) => ({ ...state, restaurants }));
 		}
 	}
 

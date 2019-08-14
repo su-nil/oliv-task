@@ -160,7 +160,7 @@ class SearchBox extends Component {
 
 	onSuggestionsFetchRequested = async ({ value }) => {
 		const suggestions = await getSuggestions(value);
-		await this.setState((state) => ({
+		this.setState((state) => ({
 			...state,
 			suggestions
 		}));
