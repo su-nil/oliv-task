@@ -1,5 +1,3 @@
-// TODO try catch
-
 import axios from 'axios';
 
 export default function getSuggestions(query) {

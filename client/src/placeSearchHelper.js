@@ -1,10 +1,13 @@
-// TODO try catch
-
 import axios from 'axios';
 
 export default async function placeSearch(query) {
-	const results = await axios.get(`http://localhost:8000/search/${query}`).then((response) => {
-		return response.data;
+	return new Promise((resolve, reject) => {
+		axios
+			.get(`http://localhost:8000/search/${query}`)
+			.then((response) => {
+				const place = response.data;
+				resolve(place[0]);
+			})
+			.catch((error) => reject(error));
 	});
-	return results;
 }

@@ -145,9 +145,17 @@ class SearchBox extends Component {
 
 	async handleSubmit(e) {
 		e.preventDefault();
-		this.setState({ value: '' });
-		const place = await placeSearch(this.state.value);
-		await this.props.fetchResults(place[0]);
+
+		let error, err, place;
+		[ err, place ] = await to(placeSearch(this.state.value));
+		if (!place) {
+			error = 'Google Maps cannot find the searched location.';
+			console.error(err);
+			this.props.handleError(error);
+			return;
+		}
+		this.props.fetchResults(place);
+		this.setState((state) => ({ ...state, value: '' }));
 	}
 
 	onSuggestionsFetchRequested = async ({ value }) => {
