@@ -1,14 +1,11 @@
-// TODO Try catch
-
 const axios = require('axios');
-const config = require('./config');
 
 module.exports = function(app, db) {
 	app.get('/autocomplete/:query', (req, res) => {
 		axios
 			.get(
-				`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${req.params
-					.query}&key=${config.mapsApiKey}`
+				`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${req.params.query}&key=${process
+					.env.MAPS_API_KEY}`
 			)
 			.then(function(response) {
 				if (response.data.status == 'OK') {

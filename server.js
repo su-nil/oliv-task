@@ -1,10 +1,11 @@
 const express = require('express');
 const path = require('path');
-
-const app = express();
+require('dotenv').config();
 const cors = require('cors');
 
-const port = process.env.PORT || 8000;
+const app = express();
+
+const port = process.env.PORT;
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(cors());
@@ -15,10 +16,7 @@ app.listen(port, () => {
 	console.log(`Listening on port ${port}`);
 });
 
+// redirect all to index.html
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
-
-// app.get('/express_backend', (req, res) => {
-// 	res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
-// });
