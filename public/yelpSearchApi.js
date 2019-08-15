@@ -11,7 +11,7 @@ module.exports = function(app, db) {
 				query: `
 			    {
 			        search(term:"restaurants" latitude: ${req.params.lat} longitude: ${req.params.lng}
-			                limit:${limit} offset:${req.params.offset}){
+			                limit:${limit} offset:${req.params.offset} sort_by: "review_count"){
 			            total
 			            business {
 			                name

@@ -28,11 +28,22 @@ const styles = {
 			fontWeight: 300,
 			fontSize: '20px',
 			margin: '20% 20% auto 20%'
+		},
+		'@media (max-width: 600px)': {
+			'& h4': {
+				fontSize: '15px'
+			}
 		}
 	},
 	loader: {
 		alignSelf: 'center',
-		margin: 'auto'
+		margin: '20%',
+		width: '50px',
+		height: '50px',
+		'@media (max-width: 600px)': {
+			width: '30px',
+			height: '30px'
+		}
 	},
 	results: {
 		overflow: 'scroll'
@@ -50,7 +61,7 @@ class ResultsArea extends Component {
 		let renderResults;
 		switch (resultsArea) {
 			case 'loading':
-				renderResults = <CircularProgress size={50} thickness={5} className={classes.loader} />;
+				renderResults = <CircularProgress thickness={5} className={classes.loader} />;
 				break;
 			case 'results':
 				renderResults = (

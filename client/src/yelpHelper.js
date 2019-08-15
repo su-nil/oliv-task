@@ -17,8 +17,9 @@ export default function yelpResults({ lat, lng }) {
 						review_count,
 						coordinates,
 						display_phone,
-						categories: { title: tags }
+						categories
 					} = el;
+					const tags = categories.map((category) => category.title).join(' · ');
 					const address = formatted_address.replace(/\n/g, ', ');
 					return {
 						name,

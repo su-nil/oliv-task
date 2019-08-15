@@ -39,7 +39,7 @@ const styles = {
 		gridColumn: '1 / 2',
 		zIndex: 0,
 		'@media (max-width: 960px)': {
-			paddingTop: '120px',
+			marginTop: '120px',
 			width: '100vw',
 			gridRow: '1 / -1',
 			gridColumn: '1 / -1'
@@ -50,7 +50,7 @@ const styles = {
 		gridColumn: '2 / 3',
 		zIndex: 0,
 		'@media (max-width: 960px)': {
-			paddingTop: '120px',
+			marginTop: '120px',
 			width: '100vw',
 			gridRow: '1 / -1',
 			gridColumn: '1 / -1'
