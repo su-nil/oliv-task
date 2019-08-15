@@ -3,6 +3,7 @@ import to from 'await-to-js';
 import ResultsArea from './ResultsArea';
 import Map from './Map';
 import Header from './Header';
+import ErrorDialog from './ErrorDialog';
 
 import yelpResults from './yelpHelper';
 import geoLocate from './geolocationHelpher';
@@ -84,12 +85,16 @@ class App extends Component {
 			coordinates: { lat: 36.778261, lng: -119.4179324 },
 			resultsArea: 'startsearch',
 			showMap: false,
-			error: ''
+			error: {
+				message: '',
+				show: false
+			}
 		};
 		this.fetchResults = this.fetchResults.bind(this);
 		this.submitMyLocation = this.submitMyLocation.bind(this);
 		this.handleShowMap = this.handleShowMap.bind(this);
 		this.handleErrorChange = this.handleErrorChange.bind(this);
+		this.handleDialogClose = this.handleDialogClose.bind(this);
 	}
 
 	async fetchResults(place) {
@@ -163,15 +168,24 @@ class App extends Component {
 		this.setState((state) => ({ ...state, showMap: checked }));
 	}
 
-	handleErrorChange(error) {
-		// Erverytime there is an error, reset restaurants list and show error.
+	handleErrorChange(errorMessage) {
+		// Everytime there is an error, reset restaurants list and show error.
 		// Add call for display of dialogs here
-		this.setState((state) => ({ ...state, restaurants: [], resultsArea: 'startsearch', error }));
+		this.setState((state) => ({
+			...state,
+			restaurants: [],
+			resultsArea: 'startsearch',
+			error: { message: errorMessage, show: true }
+		}));
+	}
+
+	handleDialogClose() {
+		this.setState((state) => ({ ...state, error: { message: '', show: false } }));
 	}
 
 	render() {
 		const { classes } = this.props;
-		const { restaurants, coordinates, resultsArea, showMap } = this.state;
+		const { restaurants, coordinates, resultsArea, showMap, error } = this.state;
 		// Toggle display of map/results based on showMap
 		const displayMap = showMap ? '' : 'display: none;';
 		const displayResults = showMap ? 'display: none;' : '';
@@ -193,6 +207,7 @@ class App extends Component {
 				<DisplayResults className={classes.results} displayResults={displayResults}>
 					<ResultsArea results={restaurants} resultsArea={resultsArea} />
 				</DisplayResults>
+				<ErrorDialog error={error} handleDialogClose={this.handleDialogClose} />
 			</div>
 		);
 	}
