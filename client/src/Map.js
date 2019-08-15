@@ -8,7 +8,6 @@ import GoogleMapReact from 'google-map-react';
 import uuid from 'uuid';
 
 import MarkerIcon from '@material-ui/icons/LocationOn';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 
 const styles = {
@@ -21,7 +20,9 @@ const styles = {
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		width: 'auto',
+		flexWrap: 'row wrap'
 	},
 	markerText: {
 		textAlign: 'center',
@@ -30,7 +31,7 @@ const styles = {
 		border: '1px solid grey',
 		borderRadius: '5px',
 		backgroundColor: 'white',
-		maxWidth: '8rem',
+		maxWidth: '9rem',
 		overflowWrap: 'normal'
 	},
 	markerIcon: {
@@ -64,11 +65,11 @@ class Map extends Component {
 
 	render() {
 		const { center, zoom, classes, results, apiKey } = this.props;
-
+		console.log(results);
 		const markers = results.map((result) => {
 			const { name, coordinates } = result;
 			const { latitude, longitude } = coordinates;
-			return <Marker lat={latitude} lng={longitude} text={name} key={uuid()} className={classes.marker} />;
+			return <Marker lat={latitude} lng={longitude} text={name} key={uuid()} classes={classes} />;
 		});
 
 		return (

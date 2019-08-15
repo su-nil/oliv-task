@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 import Rating from '@material-ui/lab/Rating';
-import { Typography, CardContent, Card, CardMedia } from '@material-ui/core';
+import { CardContent, Card, CardMedia } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const styles = {
