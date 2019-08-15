@@ -126,6 +126,8 @@ class App extends Component {
 	}
 
 	async submitMyLocation() {
+		this.setState((state) => ({ ...state, resultsArea: 'loading', showMap: false }));
+
 		let error, err, coordinates, restaurants;
 
 		// Fetch user's location
@@ -160,7 +162,7 @@ class App extends Component {
 			return;
 		} else {
 			// If search is successful then add new list of restaurants to state
-			this.setState((state) => ({ ...state, restaurants }));
+			this.setState((state) => ({ ...state, restaurants, resultsArea: 'results' }));
 		}
 	}
 
