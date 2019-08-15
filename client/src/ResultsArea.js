@@ -38,12 +38,7 @@ const styles = {
 	loader: {
 		alignSelf: 'center',
 		margin: '20%',
-		width: '50px',
-		height: '50px',
-		'@media (max-width: 600px)': {
-			width: '30px',
-			height: '30px'
-		}
+		'@media (max-width: 600px)': {}
 	},
 	results: {
 		overflow: 'scroll'
