@@ -98,7 +98,7 @@ class App extends Component {
 	}
 
 	async fetchResults(place) {
-		this.setState((state) => ({ ...state, resultsArea: 'loading' }));
+		this.setState((state) => ({ ...state, resultsArea: 'loading', showMap: false }));
 		const { geometry: { location: coordinates } } = place;
 
 		let error, err, restaurants;
