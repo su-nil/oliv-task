@@ -1,8 +1,3 @@
-// TODO Move inline styles to style object
-// TODO Routing with location?
-// TODO Pagination, More, nextPage and prevPage?
-// TODO Refactor to Hooks
-
 import React, { Component } from 'react';
 import SearchResult from './SearchResult';
 import uuid from 'uuid';
@@ -47,6 +42,8 @@ const styles = {
 
 class ResultsArea extends Component {
 	shouldComponentUpdate(nextProps, nextState) {
+		// Update component only if the resultsArea prop has changed
+		// this avoids re-render everytime showMap is toggled
 		if (nextProps.resultsArea === this.props.resultsArea) return false;
 		return true;
 	}
@@ -55,9 +52,11 @@ class ResultsArea extends Component {
 		const { results, classes, resultsArea } = this.props;
 		let renderResults;
 		switch (resultsArea) {
+			// Display progress animation when results are loading
 			case 'loading':
 				renderResults = <CircularProgress thickness={5} className={classes.loader} />;
 				break;
+			// Display results when loaded
 			case 'results':
 				renderResults = (
 					<div className={classes.results}>
@@ -65,6 +64,7 @@ class ResultsArea extends Component {
 					</div>
 				);
 				break;
+			// Default to start searching area
 			default:
 				renderResults = (
 					<div className={classes.startSearch}>

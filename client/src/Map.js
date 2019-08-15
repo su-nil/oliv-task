@@ -1,7 +1,5 @@
-// TODO Marker location offset
-// TODO Cluster Markers
-// TODO use fitBounds() for deciding zoom automatically
-// TODO Refactor to hooks
+// TODO Marker location offset, or use google API for markers
+// TODO Marker clustering and hover/click
 
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
@@ -49,14 +47,9 @@ const Marker = ({ text, classes }) => {
 };
 
 class Map extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			mapsApiKey: ''
-		};
-	}
-
 	shouldComponentUpdate(nextProps, nextState) {
+		// Update component only when the results change
+		// Avoids rer-ender every time showMap is toggled
 		const { lat: nxtLat, lng: nxtLng } = nextProps.center;
 		const { lat, lng } = this.props.center;
 		if (lat === nxtLat && lng === nxtLng) return false;
@@ -65,7 +58,8 @@ class Map extends Component {
 
 	render() {
 		const { center, zoom, classes, results, apiKey } = this.props;
-		console.log(results);
+
+		// Create Markers
 		const markers = results.map((result) => {
 			const { name, coordinates } = result;
 			const { latitude, longitude } = coordinates;
@@ -74,12 +68,7 @@ class Map extends Component {
 
 		return (
 			<div className={classes.root}>
-				<GoogleMapReact
-					bootstrapURLKeys={{ key: apiKey }}
-					center={center}
-					zoom={zoom}
-					yesIWantToUseGoogleMapApiInternals
-				>
+				<GoogleMapReact bootstrapURLKeys={{ key: apiKey }} center={center} zoom={zoom}>
 					{markers}
 				</GoogleMapReact>
 			</div>
@@ -88,5 +77,3 @@ class Map extends Component {
 }
 
 export default withStyles(styles)(Map);
-
-// { lat: 36.778261, lng: -119.4179324 }

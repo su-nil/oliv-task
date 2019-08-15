@@ -1,6 +1,3 @@
-// TODO Refactor to Hooks
-// TODO Move inline styles to style object
-
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
@@ -27,7 +24,6 @@ const styles = {
 		whiteSpace: 'nowrap',
 		fontSize: '12px',
 		'@media (max-width: 960px)': {
-			// display: 'none'
 			fontSize: '0.7rem'
 		}
 	}

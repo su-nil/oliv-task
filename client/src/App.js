@@ -1,5 +1,3 @@
-// TODO Yelpresults not return empty if place is not searchable
-
 import React, { Component } from 'react';
 import to from 'await-to-js';
 import ResultsArea from './ResultsArea';
@@ -12,6 +10,7 @@ import geoLocate from './geolocationHelpher';
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/styles';
 
+// Unsafe
 const MAPS_API_KEY = 'AIzaSyDAQOhuvUriLPgDzVblnSSH7BUj-s2EMSw';
 
 const styles = {
@@ -99,20 +98,24 @@ class App extends Component {
 
 		let error, err, restaurants;
 
+		// Fetch Yelp results based on searched location
 		[ err, restaurants ] = await to(yelpResults(coordinates));
 		if (!restaurants) {
+			// Throw error if Yelp API connection is not working
 			error = 'Yelp API not working.';
 			console.error(err);
 			console.log('ERROR:', error);
 			this.handleErrorChange(error);
 			return;
 		} else if (restaurants.length === 0) {
+			// Alert the user that results are not available at their location
 			error = 'Unable to find restaurants in the searched location.';
 			console.error(err);
 			console.log('ERROR:', error);
 			this.handleErrorChange(error);
 			return;
 		} else {
+			// If search is successful then add new list of restaurants to state
 			this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
 		}
 	}
@@ -120,31 +123,38 @@ class App extends Component {
 	async submitMyLocation() {
 		let error, err, coordinates, restaurants;
 
+		// Fetch user's location
 		[ err, coordinates ] = await to(geoLocate());
 		if (!coordinates) {
+			// If there is an error
 			error = 'Unable to fetch your location.';
 			console.error(err);
 			console.log('ERROR:', error);
 			this.handleErrorChange(error);
 			return;
 		} else {
+			// If successful
 			this.setState((state) => ({ ...state, coordinates }));
 		}
 
+		// Fetch Yelp results based on user's location
 		[ err, restaurants ] = await to(yelpResults(coordinates));
 		if (!restaurants) {
+			// Throw error if Yelp API connection is not working
 			error = 'Yelp API not working.';
 			console.error(err);
 			console.log('ERROR:', error);
 			this.handleErrorChange(error);
 			return;
 		} else if (restaurants.length === 0) {
+			// Alert the user that results are not available at their location
 			error = 'Unable to find restaurants in your current location. Try searching in some other location.';
 			console.error(err);
 			console.log('ERROR:', error);
 			this.handleErrorChange(error);
 			return;
 		} else {
+			// If search is successful then add new list of restaurants to state
 			this.setState((state) => ({ ...state, restaurants }));
 		}
 	}
@@ -154,15 +164,17 @@ class App extends Component {
 	}
 
 	handleErrorChange(error) {
+		// Erverytime there is an error, reset restaurants list and show error.
+		// Add call for display of dialogs here
 		this.setState((state) => ({ ...state, restaurants: [], resultsArea: 'startsearch', error }));
 	}
 
 	render() {
 		const { classes } = this.props;
 		const { restaurants, coordinates, resultsArea, showMap } = this.state;
+		// Toggle display of map/results based on showMap
 		const displayMap = showMap ? '' : 'display: none;';
 		const displayResults = showMap ? 'display: none;' : '';
-
 		return (
 			<div className={classes.root}>
 				<div className={classes.header}>
