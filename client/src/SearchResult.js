@@ -45,7 +45,7 @@ const styles = {
 		fontSize: '14px',
 		color: 'grey',
 		marginLeft: '10px',
-		fontWeight: '500',
+		fontWeight: 500,
 		'@media (max-width: 960px)': {
 			fontSize: '12px',
 			marginLeft: '5px'

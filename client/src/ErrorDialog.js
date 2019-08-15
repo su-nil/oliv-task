@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Dialog, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-import { withStyles, mergeClasses } from '@material-ui/styles';
+import { Dialog, Button, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 
 const styles = {
 	dialog: {
@@ -27,13 +27,7 @@ class ErrorDialog extends Component {
 
 		return (
 			<div className={classes.root}>
-				<Dialog
-					open={show}
-					onClose={handleDialogClose}
-					aria-labelledby="alert-dialog-title"
-					aria-describedby="alert-dialog-description"
-					className={classes.dialog}
-				>
+				<Dialog open={show} onClose={handleDialogClose} className={classes.dialog}>
 					<DialogContent className={classes.dialogContent}>
 						<DialogContentText id="alert-dialog-description" className={classes.dialogContentText}>
 							{message}
