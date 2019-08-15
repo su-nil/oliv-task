@@ -38,19 +38,15 @@ const styles = {
 	}
 };
 
-const Marker = ({ text, classes }) => {
-	return (
-		<div className={classes.marker}>
-			<span className={classes.markerText}>{text}</span>
-			<MarkerIcon className={classes.markerIcon} />
-		</div>
-	);
-};
-
-// const handleApiLoaded = (map, maps) => {
-// 	console.log(map, maps);
-// 	console.log(this.center);
+// const Marker = ({ text, classes }) => {
+// 	return (
+// 		<div className={classes.marker}>
+// 			<span className={classes.markerText}>{text}</span>
+// 			<MarkerIcon className={classes.markerIcon} />
+// 		</div>
+// 	);
 // };
+
 class Map extends Component {
 	constructor(props) {
 		super(props);
