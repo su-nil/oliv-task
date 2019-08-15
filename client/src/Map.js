@@ -16,33 +16,33 @@ const styles = {
 		width: '100%',
 		height: '100%',
 		borderTop: '1px solid lightgrey'
+	},
+	marker: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	markerText: {
+		textAlign: 'center',
+		fontSize: 12,
+		padding: '1px 4px',
+		border: '1px solid grey',
+		borderRadius: '5px',
+		backgroundColor: 'white',
+		maxWidth: '8rem',
+		overflowWrap: 'normal'
+	},
+	markerIcon: {
+		color: '#cc3333'
 	}
 };
 
-const Marker = ({ text }) => {
+const Marker = ({ text, classes }) => {
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-			<Typography
-				variant="subtitle1"
-				style={{
-					textAlign: 'center',
-					fontSize: 12,
-					padding: '1px 4px',
-					border: '1px solid grey',
-					borderRadius: '5px',
-					backgroundColor: 'white',
-					maxWidth: '8rem',
-					overflowWrap: 'normal'
-				}}
-			>
-				{text}
-			</Typography>
-
-			<MarkerIcon
-				style={{
-					color: '#cc3333'
-				}}
-			/>
+		<div className={classes.marker}>
+			<span className={classes.markerText}>{text}</span>
+			<MarkerIcon className={classes.markerIcon} />
 		</div>
 	);
 };
