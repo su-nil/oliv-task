@@ -19,7 +19,7 @@ export default function yelpResults({ lat, lng }) {
 						display_phone,
 						categories: { title: tags }
 					} = el;
-					const address = formatted_address.replace(/\n/g, ' ');
+					const address = formatted_address.replace(/\n/g, ', ');
 					return {
 						name,
 						rating,
