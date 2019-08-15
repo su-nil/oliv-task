@@ -16,43 +16,84 @@ const styles = {
 		width: '100%',
 		height: '100%',
 		borderTop: '1px solid lightgrey'
+	},
+	marker: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	markerText: {
+		textAlign: 'center',
+		fontSize: 12,
+		padding: '1px 4px',
+		border: '1px solid grey',
+		borderRadius: '5px',
+		backgroundColor: 'white',
+		maxWidth: '8rem',
+		overflowWrap: 'normal'
+	},
+	markerIcon: {
+		color: '#cc3333'
 	}
 };
 
-const Marker = ({ text }) => {
+const Marker = ({ text, classes }) => {
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-			<Typography
-				variant="subtitle1"
-				style={{
-					textAlign: 'center',
-					fontSize: 12,
-					padding: '1px 4px',
-					border: '1px solid grey',
-					borderRadius: '5px',
-					backgroundColor: 'white',
-					maxWidth: '8rem',
-					overflowWrap: 'normal'
-				}}
-			>
-				{text}
-			</Typography>
-
-			<MarkerIcon
-				style={{
-					color: '#cc3333'
-				}}
-			/>
+		<div className={classes.marker}>
+			<span className={classes.markerText}>{text}</span>
+			<MarkerIcon className={classes.markerIcon} />
 		</div>
 	);
 };
 
+// const handleApiLoaded = (map, maps) => {
+// 	console.log(map, maps);
+// 	console.log(this.center);
+// };
 class Map extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			mapsApiKey: ''
+			mapsApiKey: '',
+			map: {},
+			maps: {},
+			markers: []
 		};
+		this.handleApiLoaded = this.handleApiLoaded.bind(this);
+	}
+
+	handleApiLoaded({ map, maps }) {
+		this.setState((state) => ({ ...state, map, maps }));
+	}
+
+	componentWillReceiveProps() {
+		console.log('inside cmp will receive props');
+		const { map, maps } = this.state;
+		const { results } = this.props;
+
+		// Clear old markers before adding new ones
+		this.setState((state) => {
+			state.markers.map((marker) => marker.setMap(null));
+			return { ...state, markers: [] };
+		});
+		console.log('1', this.state.markers);
+
+		let markers = results.map((result) => {
+			const { name, coordinates } = result;
+			const { latitude: lat, longitude: lng } = coordinates;
+			// Add new marker for each result
+			return new maps.Marker({
+				position: { lat, lng },
+				map: map,
+				title: name
+			});
+		});
+
+		// setMapOnAll(map);
+
+		this.setState((state) => ({ ...state, markers }));
+		console.log(this.state.markers);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -63,13 +104,14 @@ class Map extends Component {
 	}
 
 	render() {
+		const { map, maps } = this.state;
 		const { center, zoom, classes, results, apiKey } = this.props;
 
-		const markers = results.map((result) => {
-			const { name, coordinates } = result;
-			const { latitude, longitude } = coordinates;
-			return <Marker lat={latitude} lng={longitude} text={name} key={uuid()} className={classes.marker} />;
-		});
+		// const markers = results.map((result) => {
+		// 	const { name, coordinates } = result;
+		// 	const { latitude, longitude } = coordinates;
+		// 	return <Marker lat={latitude} lng={longitude} text={name} key={uuid()} classes={classes} />;
+		// });
 
 		return (
 			<div className={classes.root}>
@@ -77,9 +119,10 @@ class Map extends Component {
 					bootstrapURLKeys={{ key: apiKey }}
 					center={center}
 					zoom={zoom}
-					yesIWantToUseGoogleMapApiInternals
+					yesIWantToUseGoogleMapApiInternals={true}
+					onGoogleApiLoaded={({ map, maps }) => this.handleApiLoaded({ map, maps })}
 				>
-					{markers}
+					{/* {markers} */}
 				</GoogleMapReact>
 			</div>
 		);
@@ -89,3 +132,5 @@ class Map extends Component {
 export default withStyles(styles)(Map);
 
 // { lat: 36.778261, lng: -119.4179324 }
+
+// top: -5251.12px
