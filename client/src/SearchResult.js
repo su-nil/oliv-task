@@ -41,7 +41,7 @@ const styles = {
 export class SearchResult extends Component {
 	render() {
 		const { classes } = this.props;
-		const { name, rating, photos, location: { formatted_address }, price } = this.props.result;
+		const { name, rating, photos, address, review_count, tags, price } = this.props.result;
 		return (
 			<Card className={classes.root} raised>
 				<CardContent className={classes.details}>
@@ -55,7 +55,7 @@ export class SearchResult extends Component {
 						</Typography>
 					</span>
 					<span variant="subtitle1" className={classes.address}>
-						{formatted_address}
+						{address}
 					</span>
 				</CardContent>
 				<CardMedia className={classes.image} image={photos[0]} title={name} />

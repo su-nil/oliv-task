@@ -5,6 +5,8 @@
 
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import uuid from 'uuid';
+
 import MarkerIcon from '@material-ui/icons/LocationOn';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
@@ -66,7 +68,7 @@ class Map extends Component {
 		const markers = results.map((result) => {
 			const { name, coordinates } = result;
 			const { latitude, longitude } = coordinates;
-			return <Marker lat={latitude} lng={longitude} text={name} key={name} className={classes.marker} />;
+			return <Marker lat={latitude} lng={longitude} text={name} key={uuid()} className={classes.marker} />;
 		});
 
 		return (
