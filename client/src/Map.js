@@ -60,36 +60,38 @@ class Map extends Component {
 	}
 
 	handleApiLoaded({ map, maps }) {
+		console.log('api loaded');
 		this.setState((state) => ({ ...state, map, maps }));
 	}
 
-	componentWillReceiveProps() {
-		console.log('inside cmp will receive props');
+	componentWillReceiveProps(nextProps) {
+		// console.log('inside cmp will receive props');
+
 		const { map, maps } = this.state;
-		const { results } = this.props;
+		const { results } = nextProps;
+
+		console.log('inside will receiece props', results);
 
 		// Clear old markers before adding new ones
 		this.setState((state) => {
 			state.markers.map((marker) => marker.setMap(null));
 			return { ...state, markers: [] };
 		});
-		console.log('1', this.state.markers);
+		// console.log('1', this.state.markers);
 
 		let markers = results.map((result) => {
 			const { name, coordinates } = result;
 			const { latitude: lat, longitude: lng } = coordinates;
 			// Add new marker for each result
-			return new maps.Marker({
+			const marker = new maps.Marker({
 				position: { lat, lng },
 				map: map,
 				title: name
 			});
 		});
 
-		// setMapOnAll(map);
-
 		this.setState((state) => ({ ...state, markers }));
-		console.log(this.state.markers);
+		console.log(' inside comp will recive props markers:', this.state.markers);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -99,9 +101,19 @@ class Map extends Component {
 		return true;
 	}
 
+	// componentWillUpdate() {
+	// 	console.log('inside comp d updt', this.state.markers);
+	// }
+
+	// componentDidMount() {
+	// 	console.log('inside comp did mount', this.state.markers);
+	// }
+
 	render() {
 		const { map, maps } = this.state;
 		const { center, zoom, classes, results, apiKey } = this.props;
+
+		console.log(center);
 
 		// const markers = results.map((result) => {
 		// 	const { name, coordinates } = result;

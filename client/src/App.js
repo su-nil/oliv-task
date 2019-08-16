@@ -95,6 +95,7 @@ class App extends Component {
 
 	async fetchResults(place) {
 		this.setState((state) => ({ ...state, resultsArea: 'loading' }));
+		console.log(this.state.resultsArea);
 		const { geometry: { location: coordinates } } = place;
 
 		let error, err, restaurants;
@@ -128,7 +129,7 @@ class App extends Component {
 			this.handleErrorChange(error);
 			return;
 		} else {
-			this.setState((state) => ({ ...state, coordinates }));
+			// this.setState((state) => ({ ...state, coordinates }));
 		}
 
 		[ err, restaurants ] = await to(yelpResults(coordinates));
@@ -145,7 +146,10 @@ class App extends Component {
 			this.handleErrorChange(error);
 			return;
 		} else {
-			this.setState((state) => ({ ...state, restaurants }));
+			// this.setState((state) => ({ ...state, coordinates }));
+
+			// this.setState((state) => ({ ...state, restaurants }));
+			this.setState((state) => ({ ...state, coordinates, restaurants }));
 		}
 	}
 
