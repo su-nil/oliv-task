@@ -91,6 +91,7 @@ class App extends Component {
 		this.submitMyLocation = this.submitMyLocation.bind(this);
 		this.handleShowMap = this.handleShowMap.bind(this);
 		this.handleErrorChange = this.handleErrorChange.bind(this);
+		this.fetchResultsWhenBoundsChange = this.fetchResultsWhenBoundsChange.bind(this);
 	}
 
 	async fetchResults(place) {
@@ -118,6 +119,29 @@ class App extends Component {
 		}
 	}
 
+	async fetchResultsWhenBoundsChange(coordinates, map) {
+		console.log('bounds change calling fetch results');
+		this.setState((state) => ({ ...state, resultsArea: 'loading' }));
+		let err, restaurants, error;
+		[ err, restaurants ] = await to(yelpResults(coordinates));
+		if (!restaurants) {
+			error = 'Yelp API not working.';
+			console.error(err);
+			console.log('ERROR:', error);
+			this.handleErrorChange(error);
+			return;
+		} else if (restaurants.length === 0) {
+			error = 'Unable to find restaurants in the searched location.';
+			console.error(err);
+			console.log('ERROR:', error);
+			this.handleErrorChange(error);
+			return;
+		} else {
+			if (map.center.lat() == coordinates.lat && map.center.lng() == coordinates.lng)
+				this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
+		}
+	}
+
 	async submitMyLocation() {
 		let error, err, coordinates, restaurants;
 
@@ -129,7 +153,7 @@ class App extends Component {
 			this.handleErrorChange(error);
 			return;
 		} else {
-			// this.setState((state) => ({ ...state, coordinates }));
+			this.setState((state) => ({ ...state, coordinates }));
 		}
 
 		[ err, restaurants ] = await to(yelpResults(coordinates));
@@ -148,8 +172,8 @@ class App extends Component {
 		} else {
 			// this.setState((state) => ({ ...state, coordinates }));
 
-			// this.setState((state) => ({ ...state, restaurants }));
-			this.setState((state) => ({ ...state, coordinates, restaurants }));
+			this.setState((state) => ({ ...state, restaurants }));
+			// this.setState((state) => ({ ...state, coordinates, restaurants }));
 		}
 	}
 
@@ -180,7 +204,13 @@ class App extends Component {
 				</div>
 				<div className={classes.fixedDiv} />
 				<DisplayMap className={classes.map} displayMap={displayMap}>
-					<Map results={restaurants} center={coordinates} zoom={13} apiKey={MAPS_API_KEY} />
+					<Map
+						results={restaurants}
+						center={coordinates}
+						fetchResultsWhenBoundsChange={this.fetchResultsWhenBoundsChange}
+						zoom={13}
+						apiKey={MAPS_API_KEY}
+					/>
 				</DisplayMap>
 				<DisplayResults className={classes.results} displayResults={displayResults}>
 					<ResultsArea results={restaurants} resultsArea={resultsArea} />

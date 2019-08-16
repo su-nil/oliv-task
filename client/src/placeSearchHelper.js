@@ -6,6 +6,7 @@ export default async function placeSearch(query) {
 			.get(`/search/${query}`)
 			.then((response) => {
 				const place = response.data;
+				console.log(place[0]);
 				resolve(place[0]);
 			})
 			.catch((error) => reject(error));

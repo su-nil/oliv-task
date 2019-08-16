@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import { getCenter } from 'google-map-react/utils';
 import uuid from 'uuid';
 
 import MarkerIcon from '@material-ui/icons/LocationOn';
@@ -57,11 +58,29 @@ class Map extends Component {
 			markers: []
 		};
 		this.handleApiLoaded = this.handleApiLoaded.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleApiLoaded({ map, maps }) {
-		console.log('api loaded');
 		this.setState((state) => ({ ...state, map, maps }));
+		const map1 = this.state.map;
+
+		if (!(Object.entries(map1).length === 0 && map1.constructor === Object)) {
+			map1.addListener('idle', () => {
+				const coordinates = {
+					lat: map1.center.lat(),
+					lng: map1.center.lng()
+				};
+				console.log(this);
+				this.props.fetchResultsWhenBoundsChange(coordinates, map);
+			});
+		}
+	}
+
+	handleChange() {
+		console.log('moving');
+		console.log(this);
+		const map = this.state.map;
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -73,10 +92,10 @@ class Map extends Component {
 		console.log('inside will receiece props', results);
 
 		// Clear old markers before adding new ones
-		this.setState((state) => {
-			state.markers.map((marker) => marker.setMap(null));
-			return { ...state, markers: [] };
-		});
+		// this.setState((state) => {
+		// 	state.markers.map((marker) => marker.setMap(null));
+		// 	return { ...state, markers: [] };
+		// });
 		// console.log('1', this.state.markers);
 
 		let markers = results.map((result) => {
@@ -88,10 +107,14 @@ class Map extends Component {
 				map: map,
 				title: name
 			});
+			return marker;
 		});
 
-		this.setState((state) => ({ ...state, markers }));
-		console.log(' inside comp will recive props markers:', this.state.markers);
+		this.setState(
+			(state) => ({ ...state, markers }),
+			() => console.log(' inside comp will recive props markers:', this.state.markers)
+		);
+		// console.log(' inside comp will recive props markers:', this.state.markers);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -129,6 +152,7 @@ class Map extends Component {
 					zoom={zoom}
 					yesIWantToUseGoogleMapApiInternals={true}
 					onGoogleApiLoaded={({ map, maps }) => this.handleApiLoaded({ map, maps })}
+					onChange={this.handleChange}
 				>
 					{/* {markers} */}
 				</GoogleMapReact>

@@ -7,6 +7,10 @@ export default function geoLocate() {
 		};
 
 		const success = (position) => {
+			// resolve({
+			// 	lat: 41.4901024,
+			// 	lng: -71.3128285
+			// });
 			resolve({
 				lat: position.coords.latitude,
 				lng: position.coords.longitude
