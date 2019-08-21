@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function placeSearch(query) {
+export default function placeSearch(query) {
 	return new Promise((resolve, reject) => {
 		axios
 			.get(`/search/${query}`)
