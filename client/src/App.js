@@ -137,7 +137,7 @@ class App extends Component {
 			this.handleErrorChange(error);
 			return;
 		} else {
-			if (map.center.lat() == coordinates.lat && map.center.lng() == coordinates.lng)
+			if (map.center.lat() === coordinates.lat && map.center.lng() === coordinates.lng)
 				this.setState((state) => ({ ...state, restaurants, coordinates, resultsArea: 'results' }));
 		}
 	}
